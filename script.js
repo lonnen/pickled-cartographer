@@ -17,7 +17,8 @@ navigator.mediaDevices.getUserMedia({
   
   let canvas = document.querySelector('canvas');
   let ctx = canvas.getContext('2d');
-  let grayBuffer = new Uint8ClampedArray(sensorWidth * sensorHeight);
+  let grayBuffer = new Float32Array(sensorWidth * sensorHeight);
+  let kernelBuffer = new Float32Array(sensorWidth * sensorHeight);
   grayBuffer.fill(0);
   console.log(grayBuffer);
   let alphaBuffer = new Uint8ClampedArray(sensorWidth * sensorHeight);
@@ -28,9 +29,13 @@ navigator.mediaDevices.getUserMedia({
     for (let i = 0; i < data.length; i += 4) {
       let y = 0.299 * data[i] + 0.587 * data[i + 1] + 0.114 * data[i + 2];
       let grayIdx = i / 4;
-      let diff = 
-      data[i+3] = (Math.max(0, Math.min(Math.abs(y - grayBuffer[grayIdx])), 32) * 4) | 0;
-      grayBuffer[grayIdx] = (grayBuffer[grayIdx] * .9 + y * .1) | 0; 
+      let diff = Math.abs(y-grayBuffer[grayIdx]);
+      if (diff > 20) {
+        data[i+3] = 255;
+      } else {
+        data[i+3] = 0;
+      }
+      grayBuffer[grayIdx] = (grayBuffer[grayIdx] * .95 + y * .05); 
     }
     ctx.putImageData(id, 0, 0);
     requestAnimationFrame(frame);
