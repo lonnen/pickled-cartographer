@@ -1,25 +1,23 @@
-let sensorWidth = 640;
-let sensorHeight = 360;
+/* global contours */
+
+let sensorWidth = 256;
+let sensorHeight = 256;
 
 navigator.mediaDevices.getUserMedia({
   audio: false,
-  video: {
-    width: 1280,
-    height: 720
-  }
+  video: true
 }).then(function(stream) {
-  let video = document.createElement("video");
-  document.body.appendChild(video);
+  let video = document.querySelector("video");
   video.srcObject = stream;
   video.onloadedmetadata = function(e) {
     video.play();
   }
   
-  let outCanvas = document.querySelector('.out');
-  outCanvas.width = 
-  
+  let outCanvas = document.querySelector('.output');
+  let outCtx = outCanvas.getContext('2d');
   
   let canvas = document.createElement('canvas');
+  document.body.appendChild(canvas);
   canvas.width = sensorWidth;
   canvas.height = sensorHeight;
   let ctx = canvas.getContext('2d');
@@ -28,6 +26,8 @@ navigator.mediaDevices.getUserMedia({
 
   let alphaBuffer = new Uint8ClampedArray(sensorWidth * sensorHeight);
   function frame() {
+    outCanvas.width = video.videoWidth;
+    outCanvas.height = video.videoHeight;
     ctx.drawImage(video, 0, 0, video.videoWidth, video.videoHeight, 0, 0, sensorWidth, sensorHeight);
     let id = ctx.getImageData(0, 0, sensorWidth, sensorHeight);
     let data = id.data;
@@ -51,6 +51,8 @@ navigator.mediaDevices.getUserMedia({
       let yellow = data[i] + data[i+1];
       if (yellow < threshValue) {
         data[i] = data[i+1] = data[i+2] = 0;
+      } else {
+        data[i] = data[i+1] = data[i+2] = 255;
       }
     }
     
@@ -59,16 +61,20 @@ navigator.mediaDevices.getUserMedia({
     ctx.putImageData(id, 0, 0);
     
     if (ct.length) {
-      ctx.beginPath();
-      ctx.strokeStyle = '#0f0';
+      outCtx.clearRect(0, 0, canvas.width, canvas.height);
+      outCtx.strokeRect(0, 0, 100, 100);
+      outCtx.beginPath();
+      outCtx.lineWidth = 3;
+      outCtx.strokeStyle = '#0f0';
       for (let pos of ct[0]) {
         let x = (pos % sensorWidth) * video.videoWidth / sensorWidth;
-        ctx.lineTo(pos % sensorWidth, pos / sensorWidth | 0);
+        let y = (pos / sensorWidth | 0) * video.videoHeight / sensorHeight;
+        outCtx.lineTo(x, y);
       }
-      ctx.stroke();
+      outCtx.stroke();
     }
     
-    setTimeout(frame, 1000);
+    setTimeout(frame, 500);
   }
   frame();
 }).catch(e => console.error(e));
