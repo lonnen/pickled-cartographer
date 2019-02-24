@@ -24,11 +24,16 @@ img.addEventListener('load', function () {
     sobel.data[i+3] = 255;
     if (x > 0 && x < 255 && y > 0 && y < 255) {
       let l = lum(data, i);
-      let val = Math.floor(Math.abs(
+      let valX = Math.floor(Math.abs(
         -1 * lum(data, idx(x - 1, y - 1)) + 1 * lum(data, idx(x + 1, y - 1)) +
         -2 * lum(data, idx(x - 1, y)) + 2 * lum(data, idx(x + 1, y)) +
         -1 * lum(data, idx(x - 1, y + 1)) + 1 * lum(data, idx(x + 1, y + 1))
       ));
+      let valY = Math.floor(Math.abs(
+        -1 * lum(data, idx(x - 1, y - 1)) + -2 * lum(data, idx(x, y - 1)) + -1 * lum(data, idx(x + 1, y - 1)) +
+        1 * lum(data, idx(x - 1, y + 1)) + 2 * lum(data, idx(x, y + 1)) + 1 * lum(data, idx(x + 1, y + 1))
+      ));
+      let val = Math.max(0, Math.min(valX + valY / 2 | 0, 255));
       if (val > max) max = val;
       if (val < min) min = val;
       sobel.data[i] = sobel.data[i + 1] = sobel.data[i + 2] = val;
@@ -37,22 +42,22 @@ img.addEventListener('load', function () {
     }
   }
 
-  console.log(sobel);
+  ctx.putImageData(sobel, 0, 0);
 
-  // let threshold = .90;
-  // console.log(min, max);
-  // let threshValue = (max - min) * threshold + min;
-  // for (let i = 0; i < data.length; i+=4) {
-  //   let blue = data[i] + data[i+1];
-  //   if (blue > threshValue) {
-  //     data[i] = data[i+1] = data[i+2] = 0;
-  //   } else {
-  //     data[i] = data[i+1] = data[i+2] = 255;
-  //   }
-  // }
+  let threshold = .2;
+  let threshValue = (max - min) * threshold + min;
+  console.log(max, min, threshValue);
+  for (let i = 0; i < data.length; i+=4) {
+    if (sobel.data[i] > threshValue) {
+      sobel.data[i] = sobel.data[i+1] = sobel.data[i+2] = 255;
+    } else {
+      sobel.data[i] = sobel.data[i+1] = sobel.data[i+2] = 0;
+    }
+  }
+
+  ctx.putImageData(sobel, 0, 0);
 
   let ct = contours(sobel);
-  ctx.putImageData(sobel, 0, 0);
 
   console.log(ct);
   if (ct.length) {
@@ -86,4 +91,4 @@ img.addEventListener('load', function () {
 
 });
 
-img.src="https://cdn.glitch.com/4945918e-6ab3-4a5c-8549-71e001d5a0e8%2Fb9-crescent-isle.png?1550987729191";
+img.src="https://cdn.glitch.com/4945918e-6ab3-4a5c-8549-71e001d5a0e8%2Fd-10.png?1550992170030";
