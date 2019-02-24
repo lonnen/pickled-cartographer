@@ -1,7 +1,7 @@
 function sobelFilter(id) {
   let sobel = new ImageData(id.width, id.height);
   const lum = (id, i) => (id[i] * .299 + id[i + 1] * .587 + id[i + 2] * .114);
-  const idx = (x, y) => y * 256 * 4 + x * 4;
+  const idx = (x, y) => y * id.width * 4 + x * 4;
 
   let min = Infinity;
   let max = -Infinity;

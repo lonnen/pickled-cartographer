@@ -99,6 +99,7 @@ function start(stream) {
       outCtx.stroke();
       outCtx.strokeRect(minX, minY, maxX-minX, maxY-minY);
       sigCtx.drawImage(video, minX - 8, minY - 8, maxX - minX + 16, maxY - minY + 16, 0, 0, signatureSize, signatureSize);
+      sigCtx.putImageData(sobelFilter(sigCtx.getImageData(0, 0, signatureSize, signatureSize)).sobel, 0, 0);
     }
     
     setTimeout(frame, 200);
