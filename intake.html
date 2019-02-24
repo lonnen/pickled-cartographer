@@ -14,19 +14,49 @@
   </head>  
   <body>
     <div class="app">
-      <img crossorigin="anonymous" src="https://cdn.glitch.com/4945918e-6ab3-4a5c-8549-71e001d5a0e8%2Fb9-crescent-isle.png?1550987729191" style="width: 80vw">
       <canvas></canvas>
     </div>
     <script async>
-      let canvas = document.querySelector('canvas');
-      let ctx = canvas.getContext('2d');
-      let img = document.querySelector('img');
-      canvas.width = 256;
-      canvas.height = 256;
-      console.log(img.width, img.height);
-      ctx.drawImage(img, 0, 0, 1000, 1000, 0, 0, 256, 256);
-      let id = ctx.getImageData(0, 0, 256, 256);
-      let data = id.data;
+      let img = new Image();
+      img.setAttribute('crossorigin', 'anonymous');
+      img.addEventListener('load', function () {
+        let canvas = document.querySelector('canvas');
+        canvas.width = 256;
+        canvas.height = 256;
+        let ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, img.width, img.height, 0, 0, 256, 256);
+        let id = ctx.getImageData(0, 0, 256, 256);
+        let data = id.data;
+
+        // the meat
+        let max = 0;
+        let min = Infinity;
+        for (let i = 0; i < data.length; i+=4) {
+          let blue = data[i+2];
+          if (blue > max) {
+            max = blue;
+          }
+          if (blue < min) {
+            min = blue;
+          }
+        }
+
+        let threshold = .7;
+        let threshValue = (max - min) * threshold + min;
+        for (let i = 0; i < data.length; i+=4) {
+          let blue = data[i] + data[i+1];
+          if (blue < threshValue) {
+            data[i] = data[i+1] = data[i+2] = 0;
+          } else {
+            data[i] = data[i+1] = data[i+2] = 255;
+          }
+        }
+
+        let ct = contours(id);
+
+        ctx.putImageData(id, 0, 0);
+      });
+      img.src="https://cdn.glitch.com/4945918e-6ab3-4a5c-8549-71e001d5a0e8%2Fb9-crescent-isle.png?1550987729191"
     </script>
   </body>
 </html>
