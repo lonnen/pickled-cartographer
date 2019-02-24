@@ -23,7 +23,7 @@ function start(stream) {
   let outCtx = outCanvas.getContext('2d');
   
   let canvas = document.createElement('canvas');
-  // document.body.appendChild(canvas);
+  document.body.appendChild(canvas);
   canvas.width = sensorWidth;
   canvas.height = sensorHeight;
   
@@ -46,32 +46,27 @@ function start(stream) {
     let data = id.data;
     
     // the meat
-    let max = 0;
-    let min = Infinity;
     for (let i = 0; i < data.length; i+=4) {
-      let yellow = data[i] + data[i+1];
-      if (yellow > max) {
-        max = yellow;
-      }
-      if (yellow < min) {
-        min = yellow;
-      }
+      let yellow = data[i] + data[i+1] / 2 | 0;
+      data[i + 2] = yellow;
     }
     
-    let threshold = .7;
+    let { min, max, sobel } = sobelFilter(id);
+    
+    ctx.putImageData(sobel, 0, 0);
+    
+    let threshold = .5;
     let threshValue = (max - min) * threshold + min;
+    console.log(max, min, threshValue);
     for (let i = 0; i < data.length; i+=4) {
-      let yellow = data[i] + data[i+1];
-      if (yellow < threshValue) {
-        data[i] = data[i+1] = data[i+2] = 0;
+      if (sobel.data[i] > threshValue) {
+        sobel.data[i] = sobel.data[i+1] = sobel.data[i+2] = 255;
       } else {
-        data[i] = data[i+1] = data[i+2] = 255;
+        sobel.data[i] = sobel.data[i+1] = sobel.data[i+2] = 0;
       }
     }
     
-    let ct = contours(id);
-    
-    ctx.putImageData(id, 0, 0);
+    let ct = contours(sobel);
     
     if (ct.length) {
       let contour = ct[0];
@@ -101,7 +96,7 @@ function start(stream) {
         if (y > maxY) maxY = y;
         outCtx.lineTo(x, y);
       }
-      outCtx.fill();
+      outCtx.stroke();
       outCtx.strokeRect(minX, minY, maxX-minX, maxY-minY);
       sigCtx.drawImage(video, minX - 8, minY - 8, maxX - minX + 16, maxY - minY + 16, 0, 0, signatureSize, signatureSize);
     }

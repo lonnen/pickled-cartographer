@@ -1,4 +1,4 @@
-/ * global contours */
+/ * global contours, sobelFilter */
 
 let img = new Image();
 img.setAttribute('crossorigin', 'anonymous');
@@ -9,39 +9,9 @@ img.addEventListener('load', function () {
   let ctx = canvas.getContext('2d');
   ctx.drawImage(img, 0, 0, img.width, img.height, 0, 0, 256, 256);
   let id = ctx.getImageData(0, 0, 256, 256);
-  let sobel = new ImageData(256, 256);
   let data = id.data;
 
-  const lum = (id, i) => (id[i] * .299 + id[i + 1] * .587 + id[i + 2] * .114);
-  const idx = (x, y) => y * 256 * 4 + x * 4;
-
-  // the meat
-  let min = Infinity;
-  let max = -Infinity;
-  for (let i = 0; i < data.length; i+=4) {
-    let x = (i / 4) % 256;
-    let y = (i / 4) / 256 | 0;
-    sobel.data[i+3] = 255;
-    if (x > 0 && x < 255 && y > 0 && y < 255) {
-      let l = lum(data, i);
-      let valX = Math.floor(Math.abs(
-        -1 * lum(data, idx(x - 1, y - 1)) + 1 * lum(data, idx(x + 1, y - 1)) +
-        -2 * lum(data, idx(x - 1, y)) + 2 * lum(data, idx(x + 1, y)) +
-        -1 * lum(data, idx(x - 1, y + 1)) + 1 * lum(data, idx(x + 1, y + 1))
-      ));
-      let valY = Math.floor(Math.abs(
-        -1 * lum(data, idx(x - 1, y - 1)) + -2 * lum(data, idx(x, y - 1)) + -1 * lum(data, idx(x + 1, y - 1)) +
-        1 * lum(data, idx(x - 1, y + 1)) + 2 * lum(data, idx(x, y + 1)) + 1 * lum(data, idx(x + 1, y + 1))
-      ));
-      let val = Math.max(0, Math.min(valX + valY / 2 | 0, 255));
-      if (val > max) max = val;
-      if (val < min) min = val;
-      sobel.data[i] = sobel.data[i + 1] = sobel.data[i + 2] = val;
-    } else {
-      sobel.data[i] = sobel.data[i + 1] = sobel.data[i + 2] = 0;
-    }
-  }
-
+  let { min, max, sobel } = sobelFilter(id);
   // ctx.putImageData(sobel, 0, 0);
 
   let threshold = .1;
