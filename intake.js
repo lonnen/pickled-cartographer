@@ -7,6 +7,8 @@ signature.height = signatureSize;
 document.body.appendChild(signature);
 let sigCtx = signature.getContext('2d');
 
+let fullOutput = [];
+
 async function init() {
   let assets = await fetch('/.glitch-assets');
   assets = await assets.text();
@@ -29,6 +31,9 @@ async function init() {
   
   function next() {
     if (pos >= islands.length) {
+      let outEl = document.createElement('pre');
+      outEl.innerText = JSON.stringify(fullOutput, null, 2);
+      document.querySelector('.data').appendChild(outEl);
       console.log('done!');
       return;
     }
@@ -109,12 +114,19 @@ function processIsland(island) {
         let cw = Math.min(maxX * img.width / 256 + 8, img.width) - cx;
         let ch = Math.min(maxY * img.height / 256 + 8, img.height) - cy;
         sigCtx.drawImage(img, cx, cy, cw, ch, 0, 0, signatureSize, signatureSize);
-        sigCtx.putImageData(sobelFilter(sigCtx.getImageData(0, 0, signatureSize, signatureSize)).sobel, 0, 0);
+        let islandSig = sobelFilter(sigCtx.getImageData(0, 0, signatureSize, signatureSize)).sobel;
+        sigCtx.putImageData(islandSig, 0, 0);
 
         let i = new Image();
         i.src = signature.toDataURL();
         i.setAttribute('title', island.name);
-        document.body.appendChild(i);
+        document.querySelector('.thumbs').appendChild(i);
+        
+        let dataOut = '';
+        for (let i = 0; i < islandSig.data.length; i+=4) {
+          dataOut += String.fromCharCode(islandSig.data[i]);
+        }
+        fullOutput.push([island.name.replace('.png',''), btoa(dataOut)]);
         resolve();
       }
     });

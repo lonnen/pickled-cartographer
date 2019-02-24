@@ -7,8 +7,9 @@ let signatureSize = 64;
 
 let video = document.querySelector("video");
 let hasCapture = false;
-function init() {
+async function init() {
   console.log('click');
+  let signatures = fetch('signatures.json');
   navigator.mediaDevices.getUserMedia({
     audio: false,
     video: true
@@ -111,6 +112,6 @@ function start(stream) {
 }
 
 // document.querySelector('.app').addEventListener('click', init);
-init();
+init().catch(e => console.error(e));
 
 console.log('woooo');
