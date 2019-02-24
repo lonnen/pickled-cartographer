@@ -100,7 +100,12 @@ function start(stream) {
     
     setTimeout(frame, 200);
   }
-  frame();
+  
+  video.addEventListener('play', function () {
+    frame();
+  });
 }
 
 window.addEventListener('click', init);
+
+console.log('woooo');
