@@ -61,12 +61,25 @@ navigator.mediaDevices.getUserMedia({
     ctx.putImageData(id, 0, 0);
     
     if (ct.length) {
+      let contour = ct[0];
+      for (let i = 1; i < ct.length; i++) {
+        if (ct[i].length > contour.length) {
+          contour = ct[i];
+        }
+      }
+      console.log(contour);
       outCtx.clearRect(0, 0, canvas.width, canvas.height);
       outCtx.strokeRect(0, 0, 100, 100);
       outCtx.beginPath();
       outCtx.lineWidth = 3;
       outCtx.strokeStyle = '#0f0';
-      for (let pos of ct[0]) {
+      
+      let minX = Infinity;
+      let minY = Infinity;
+      let maxX = -Infinity;
+      let maxY = -Infinity;
+      
+      for (let pos of contour) {
         let x = (pos % sensorWidth) * video.videoWidth / sensorWidth;
         let y = (pos / sensorWidth | 0) * video.videoHeight / sensorHeight;
         outCtx.lineTo(x, y);
