@@ -5,7 +5,10 @@ let sensorHeight = 256;
 
 let signatureSize = 64;
 
+let video = document.querySelector("video");
+let hasCapture = false;
 function init() {
+  console.log('click');
   navigator.mediaDevices.getUserMedia({
     audio: false,
     video: true
@@ -13,11 +16,8 @@ function init() {
 }
 
 function start(stream) {
-  let video = document.querySelector("video");
   video.srcObject = stream;
-  video.onloadedmetadata = function(e) {
-    video.play();
-  }
+  video.play();
   
   let outCanvas = document.querySelector('.output');
   let outCtx = outCanvas.getContext('2d');
@@ -26,6 +26,11 @@ function start(stream) {
   document.body.appendChild(canvas);
   canvas.width = sensorWidth;
   canvas.height = sensorHeight;
+  
+  let signature = document.createElement('canvas');
+  signature.width = signatureSize;
+  signature.height = signatureSize;
+  
   let ctx = canvas.getContext('2d');
   let grayBuffer = new Float32Array(sensorWidth * sensorHeight);
   let kernelBuffer = new Float32Array(sensorWidth * sensorHeight);
@@ -106,6 +111,6 @@ function start(stream) {
   });
 }
 
-window.addEventListener('click', init);
+document.querySelector('.app').addEventListener('click', init);
 
 console.log('woooo');

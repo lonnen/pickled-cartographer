@@ -21,3 +21,7 @@ h1 {
   width: 100%;
   height: 100%;
 }
+
+.app {
+  border:1px solid #000;
+}
