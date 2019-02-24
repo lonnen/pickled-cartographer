@@ -1,5 +1,13 @@
 / * global contours, sobelFilter */
 
+let signatureSize = 64;
+let signature = document.createElement('canvas');
+signature.width = signatureSize;
+signature.height = signatureSize;
+document.body.appendChild(signature);
+let sigCtx = signature.getContext('2d');
+
+
 let img = new Image();
 img.setAttribute('crossorigin', 'anonymous');
 img.addEventListener('load', function () {
@@ -56,7 +64,12 @@ img.addEventListener('load', function () {
       ctx.lineTo(x, y);
     }
     ctx.stroke();
-    // ctx.strokeRect(minX, minY, maxX-minX, maxY-minY);
+    ctx.strokeRect(minX, minY, maxX-minX, maxY-minY);
+    let cx = Math.max(0, minX - 8);
+    let cy = Math.max(0, minY - 8);
+    let cw = Math.min(maxX + 8, img.width) - cx;
+    let ch = Math.min(maxY + 8, img.height) - cy;
+    sigCtx.drawImage(img, cx, cy, cw, ch, 0, 0, signatureSize, signatureSize);
   }
 
 });
