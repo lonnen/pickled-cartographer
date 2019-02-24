@@ -11,7 +11,7 @@ let sigCtx = signature.getContext('2d');
 let img = new Image();
 img.setAttribute('crossorigin', 'anonymous');
 img.addEventListener('load', function () {
-  let canvas = document.querySelector('canvas');
+  let canvas = document.querySelector('.intake');
   canvas.width = 256;
   canvas.height = 256;
   let ctx = canvas.getContext('2d');
@@ -65,13 +65,13 @@ img.addEventListener('load', function () {
     }
     ctx.stroke();
     ctx.strokeRect(minX, minY, maxX-minX, maxY-minY);
-    let cx = Math.max(0, minX - 8);
-    let cy = Math.max(0, minY - 8);
-    let cw = Math.min(maxX + 8, img.width) - cx;
-    let ch = Math.min(maxY + 8, img.height) - cy;
+    let cx = Math.max(0, minX * img.width / 256 - 8);
+    let cy = Math.max(0, minY * img.height / 256 - 8);
+    let cw = Math.min(maxX * img.width / 256 + 8, img.width) - cx;
+    let ch = Math.min(maxY * img.height / 256 + 8, img.height) - cy;
     sigCtx.drawImage(img, cx, cy, cw, ch, 0, 0, signatureSize, signatureSize);
   }
 
 });
 
-img.src="https://cdn.glitch.com/4945918e-6ab3-4a5c-8549-71e001d5a0e8%2Fo-9.png?1550992687882";
+img.src="https://cdn.glitch.com/4945918e-6ab3-4a5c-8549-71e001d5a0e8%2Fd-10.png?1550992170030";
