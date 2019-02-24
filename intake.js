@@ -28,13 +28,18 @@ async function init() {
   let pos = 0;
   
   function next() {
-    console.log(islands[pos]);
+    if (pos >= islands.length) {
+      console.log('done!');
+      return;
+    }
     processIsland(islands[pos]).then(() => {
       pos++;
-      if (pos < islands.length) {
-        setTimeout(next, 0);
-      }
-    }).catch(e => console.error(e));
+      setTimeout(next, 0);
+    }).catch(e => {
+      console.error(e)
+      pos++;
+      setTimeout(next, 0);
+    });
   }
   
   next();
@@ -60,7 +65,6 @@ function processIsland(island) {
 
       let threshold = .1;
       let threshValue = (max - min) * threshold + min;
-      console.log(max, min, threshValue);
       for (let i = 0; i < data.length; i+=4) {
         if (sobel.data[i] > threshValue) {
           sobel.data[i] = sobel.data[i+1] = sobel.data[i+2] = 255;
@@ -73,7 +77,6 @@ function processIsland(island) {
 
       let ct = contours(sobel);
 
-      console.log(ct);
       if (ct.length) {
         let contour = ct[0];
         for (let i = 1; i < ct.length; i++) {
@@ -110,10 +113,12 @@ function processIsland(island) {
 
         let i = new Image();
         i.src = signature.toDataURL();
+        i.setAttribute('title', island.name);
         document.body.appendChild(i);
         resolve();
       }
     });
+    img.onerror = reject;
 
     img.src=island.url
   });
