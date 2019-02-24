@@ -3,10 +3,16 @@
 let sensorWidth = 256;
 let sensorHeight = 256;
 
-navigator.mediaDevices.getUserMedia({
-  audio: false,
-  video: true
-}).then(function(stream) {
+let signatureSize = 64;
+
+function init() {
+  navigator.mediaDevices.getUserMedia({
+    audio: false,
+    video: true
+  }).then(start).catch(e => console.error(e));
+}
+
+function start(stream) {
   let video = document.querySelector("video");
   video.srcObject = stream;
   video.onloadedmetadata = function(e) {
@@ -67,12 +73,12 @@ navigator.mediaDevices.getUserMedia({
           contour = ct[i];
         }
       }
-      console.log(contour);
       outCtx.clearRect(0, 0, canvas.width, canvas.height);
       outCtx.strokeRect(0, 0, 100, 100);
       outCtx.beginPath();
       outCtx.lineWidth = 3;
       outCtx.strokeStyle = '#0f0';
+      outCtx.fillStyle= '#rgba(0, 255, 0, .5)';
       
       let minX = Infinity;
       let minY = Infinity;
@@ -82,12 +88,19 @@ navigator.mediaDevices.getUserMedia({
       for (let pos of contour) {
         let x = (pos % sensorWidth) * video.videoWidth / sensorWidth;
         let y = (pos / sensorWidth | 0) * video.videoHeight / sensorHeight;
+        if (x < minX) minX = x;
+        if (y < minY) minY = y;
+        if (x > maxX) maxX = x;
+        if (y > maxY) maxY = y;
         outCtx.lineTo(x, y);
       }
-      outCtx.stroke();
+      outCtx.fill();
+      outCtx.strokeRect(minX, minY, maxX-minX, maxY-minY);
     }
     
-    setTimeout(frame, 500);
+    setTimeout(frame, 200);
   }
   frame();
-}).catch(e => console.error(e));
+}
+
+window.addEventListener('click', init);
