@@ -9,8 +9,10 @@ let sigCtx = signature.getContext('2d');
 
 async function init() {
   let assets = await fetch('/.glitch-assets');
-  assets = await assets.json();
-  console.log(assets);
+  assets = await assets.text();
+  assets.split('\n').forEach(f => console.log(f));
+  
+  // console.log(assets.split('\n').map(f => JSON.parse(f)));
 }
 
 let img = new Image();
@@ -76,11 +78,13 @@ img.addEventListener('load', function () {
     let ch = Math.min(maxY * img.height / 256 + 8, img.height) - cy;
     sigCtx.drawImage(img, cx, cy, cw, ch, 0, 0, signatureSize, signatureSize);
     sigCtx.putImageData(sobelFilter(sigCtx.getImageData(0, 0, signatureSize, signatureSize)).sobel, 0, 0);
-    // document.body.innerHTML += signature.toDataURL()
+    let i = new Image();
+    i.src = signature.toDataURL();
+    document.body.appendChild(i);
   }
 
 });
 
-init();
+img.src="https://cdn.glitch.com/4945918e-6ab3-4a5c-8549-71e001d5a0e8%2Fi-4.png?1550996601524";
 
-img.src="https://cdn.glitch.com/4945918e-6ab3-4a5c-8549-71e001d5a0e8%2Fe-17.png?1550992176648";
+init().catch(e => console.error(e));
