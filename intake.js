@@ -7,6 +7,11 @@ signature.height = signatureSize;
 document.body.appendChild(signature);
 let sigCtx = signature.getContext('2d');
 
+async function init() {
+  let assets = await fetch('/.glitch-assets');
+  assets = await assets.json();
+  console.log(assets);
+}
 
 let img = new Image();
 img.setAttribute('crossorigin', 'anonymous');
@@ -75,5 +80,7 @@ img.addEventListener('load', function () {
   }
 
 });
+
+init();
 
 img.src="https://cdn.glitch.com/4945918e-6ab3-4a5c-8549-71e001d5a0e8%2Fe-17.png?1550992176648";
