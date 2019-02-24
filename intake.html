@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>The Pickled Cartographer</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <!-- import the webpage's stylesheet -->
+    <link rel="stylesheet" href="/style.css">
+    
+    <!-- import the webpage's javascript file -->
+    <script src="/contours.js" defer></script>
+  </head>  
+  <body>
+    <div class="app">
+      <img crossorigin="anonymous" src="https://cdn.glitch.com/4945918e-6ab3-4a5c-8549-71e001d5a0e8%2Fb9-crescent-isle.png?1550987729191" style="width: 80vw">
+      <canvas></canvas>
+    </div>
+    <script async>
+      let canvas = document.querySelector('canvas');
+      let ctx = canvas.getContext('2d');
+      let img = document.querySelector('img');
+      canvas.width = 256;
+      canvas.height = 256;
+      console.log(img.width, img.height);
+      ctx.drawImage(img, 0, 0, 1000, 1000, 0, 0, 256, 256);
+      let id = ctx.getImageData(0, 0, 256, 256);
+      let data = id.data;
+    </script>
+  </body>
+</html>
