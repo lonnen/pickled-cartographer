@@ -30,13 +30,28 @@ navigator.mediaDevices.getUserMedia({
     
     // the meat
     let max = 0;
+    let min = Infinity;
     for (let i = 0; i < data.length; i+=4) {
       let yellow = data[i] + data[i+1];
-      data[i+2] = 0;
+      if (yellow > max) {
+        max = yellow;
+      }
+      if (yellow < min) {
+        min = yellow;
+      }
     }
     
+    let threshold = .7;
+    let threshValue = (max - min) * threshold + min;
+    for (let i = 0; i < data.length; i+=4) {
+      let yellow = data[i] + data[i+1];
+      if (yellow < threshValue) {
+        data[i] = data[i+1] = data[i+2] = 0;
+      }
+    }
+
     ctx.putImageData(id, 0, 0);
-    requestAnimationFrame(frame);
+    setTimeout(frame, 100);
   }
   frame();
 }).catch(e => console.error(e));
