@@ -1,5 +1,5 @@
-let sensorWidth = 128;
-let sensorHeight = 128;
+let sensorWidth = 640;
+let sensorHeight = 360;
 
 navigator.mediaDevices.getUserMedia({
   audio: false,
@@ -16,27 +16,25 @@ navigator.mediaDevices.getUserMedia({
   }
   
   let canvas = document.querySelector('canvas');
+  canvas.width = sensorWidth;
+  canvas.height = sensorHeight;
   let ctx = canvas.getContext('2d');
   let grayBuffer = new Float32Array(sensorWidth * sensorHeight);
   let kernelBuffer = new Float32Array(sensorWidth * sensorHeight);
-  grayBuffer.fill(0);
-  console.log(grayBuffer);
+
   let alphaBuffer = new Uint8ClampedArray(sensorWidth * sensorHeight);
   function frame() {
     ctx.drawImage(video, 0, 0, video.videoWidth, video.videoHeight, 0, 0, sensorWidth, sensorHeight);
-    let id = ctx.getImageData(0, 0, 128, 128);
+    let id = ctx.getImageData(0, 0, sensorWidth, sensorHeight);
     let data = id.data;
-    for (let i = 0; i < data.length; i += 4) {
-      let y = 0.299 * data[i] + 0.587 * data[i + 1] + 0.114 * data[i + 2];
-      let grayIdx = i / 4;
-      let diff = Math.abs(y-grayBuffer[grayIdx]);
-      if (diff > 20) {
-        data[i+3] = 255;
-      } else {
-        data[i+3] = 0;
-      }
-      grayBuffer[grayIdx] = (grayBuffer[grayIdx] * .95 + y * .05); 
+    
+    // the meat
+    let max = 0;
+    for (let i = 0; i < data.length; i+=4) {
+      let yellow = data[i] + data[i+1];
+      data[i+2] = 0;
     }
+    
     ctx.putImageData(id, 0, 0);
     requestAnimationFrame(frame);
   }
