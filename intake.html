@@ -26,26 +26,24 @@
         let ctx = canvas.getContext('2d');
         ctx.drawImage(img, 0, 0, img.width, img.height, 0, 0, 256, 256);
         let id = ctx.getImageData(0, 0, 256, 256);
+        let sobel = new ImageData(256, 256);
         let data = id.data;
 
         // the meat
         let max = 0;
         let min = Infinity;
         for (let i = 0; i < data.length; i+=4) {
-          let blue = data[i+2];
-          if (blue > max) {
-            max = blue;
-          }
-          if (blue < min) {
-            min = blue;
-          }
+          let x = i % 256;
+          let y = i / 256 | 0;
+          if (x > 0 && y <
         }
 
-        let threshold = .7;
+        let threshold = .90;
+        console.log(min, max);
         let threshValue = (max - min) * threshold + min;
         for (let i = 0; i < data.length; i+=4) {
           let blue = data[i] + data[i+1];
-          if (blue < threshValue) {
+          if (blue > threshValue) {
             data[i] = data[i+1] = data[i+2] = 0;
           } else {
             data[i] = data[i+1] = data[i+2] = 255;
