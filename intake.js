@@ -70,8 +70,10 @@ img.addEventListener('load', function () {
     let cw = Math.min(maxX * img.width / 256 + 8, img.width) - cx;
     let ch = Math.min(maxY * img.height / 256 + 8, img.height) - cy;
     sigCtx.drawImage(img, cx, cy, cw, ch, 0, 0, signatureSize, signatureSize);
+    sigCtx.putImageDasta(sobelFilter(sigCtx.getImageData(0, 0, signatureSize, signatureSize)), 0, 0);
+    // document.body.innerHTML += signature.toDataURL()
   }
 
 });
 
-img.src="https://cdn.glitch.com/4945918e-6ab3-4a5c-8549-71e001d5a0e8%2Fd-10.png?1550992170030";
+img.src="https://cdn.glitch.com/4945918e-6ab3-4a5c-8549-71e001d5a0e8%2Fd-8.png?1550992353741";

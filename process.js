@@ -31,3 +31,8 @@ function sobelFilter(id) {
   }
   return { min, max, sobel }
 }
+
+function idToBase64(id) {
+  console.log(id.data);
+  return btoa(Array.prototype.map.call(id.data, byte => String.fromCharCode(byte)).join(''));
+}
