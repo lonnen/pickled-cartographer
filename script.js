@@ -7,13 +7,20 @@ let signatureSize = 64;
 
 let video = document.querySelector("video");
 let hasCapture = false;
+
+let sigs = [];
+
 async function init() {
   console.log('click');
-  let signatures = fetch('signatures.json');
-  navigator.mediaDevices.getUserMedia({
+  let signatures = await fetch('signatures.json');
+  signatures = await signatures.json();
+  sigs = signatures.map(s => [s[0], atob(s[1]).split('').map(c => c.charCodeAt(0))]);
+  console.log(sigs);
+  let stream = await navigator.mediaDevices.getUserMedia({
     audio: false,
     video: true
-  }).then(start).catch(e => console.error(e));
+  })
+  start(stream);
 }
 
 function start(stream) {
@@ -100,10 +107,23 @@ function start(stream) {
       outCtx.stroke();
       outCtx.strokeRect(minX, minY, maxX-minX, maxY-minY);
       sigCtx.drawImage(video, minX - 8, minY - 8, maxX - minX + 16, maxY - minY + 16, 0, 0, signatureSize, signatureSize);
-      sigCtx.putImageData(sobelFilter(sigCtx.getImageData(0, 0, signatureSize, signatureSize)).sobel, 0, 0);
+      let cameraSig = sobelFilter(sigCtx.getImageData(0, 0, signatureSize, signatureSize)).sobel
+      sigCtx.putImageData(cameraSig, 0, 0);
+      
+      let scores = sigs.map(([id, sig]) => {
+        let score = 0;
+        for (let i = 0; i < sig.length; i++) {
+          score += Math.abs(sig[i] - cameraSig.data[i * 4]);
+        }
+        return [id, score];
+      });
+                              
+      let islandID = scores.sort((a, b) => { return a[1] - b[1] })[0];
+      console.log(islandID);
+      
     }
     
-    setTimeout(frame, 200);
+    setTimeout(frame, 500);
   }
   
   video.addEventListener('play', function () {
