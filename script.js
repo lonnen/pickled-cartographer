@@ -23,13 +23,15 @@ function start(stream) {
   let outCtx = outCanvas.getContext('2d');
   
   let canvas = document.createElement('canvas');
-  document.body.appendChild(canvas);
+  // document.body.appendChild(canvas);
   canvas.width = sensorWidth;
   canvas.height = sensorHeight;
   
   let signature = document.createElement('canvas');
   signature.width = signatureSize;
   signature.height = signatureSize;
+  document.body.appendChild(signature);
+  let sigCtx = signature.getContext('2d');
   
   let ctx = canvas.getContext('2d');
   let grayBuffer = new Float32Array(sensorWidth * sensorHeight);
@@ -101,6 +103,7 @@ function start(stream) {
       }
       outCtx.fill();
       outCtx.strokeRect(minX, minY, maxX-minX, maxY-minY);
+      sigCtx.drawImage(video, minX - 8, minY - 8, maxX - minX + 16, maxY - minY + 16, 0, 0, signatureSize, signatureSize);
     }
     
     setTimeout(frame, 200);
@@ -111,6 +114,7 @@ function start(stream) {
   });
 }
 
-document.querySelector('.app').addEventListener('click', init);
+// document.querySelector('.app').addEventListener('click', init);
+init();
 
 console.log('woooo');

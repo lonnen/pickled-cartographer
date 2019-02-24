@@ -1,538 +1,538 @@
 {
   "islands": [
-        [
-            "Sanctuary Outpost",
-            "F-7",
-            "Outpost",
-            "The Shores of Plenty"
-        ],
-        [
-            "Golden Sands Outpost",
-            "D-10",
-            "Outpost",
-            "The Shores of Plenty"
-        ],
-        [
-            "Plunder Outpost",
-            "J-18",
-            "Outpost",
-            "The Ancient Isles "
-        ],
-        [
-            "Ancient Spire Outpost",
-            "Q-17",
-            "Outpost",
-            "The Ancient Isles"
-        ],
-        [
-            "Galleon's Grave Outpost",
-            "R-8",
-            "Outpost",
-            "The Wilds"
-        ],
-        [
-            "Dagger Tooth Outpost",
-            "M-8",
-            "Outpost",
-            "The Wilds"
-        ],
-        [
-            "Morrow's Peak Outpost",
-            "V-17",
-            "Outpost",
-            "The Devil's Roar"
-        ],
-        [
-            "Barnacle Cay",
-            "O-15",
-            "Small Island",
-            "The Ancient Isles "
-        ],
-        [
-            "Black Sand Atoll",
-            "O-3",
-            "Small Island",
-            "The Wilds"
-        ],
-        [
-            "Black Water Enclave",
-            "R-5",
-            "Small Island",
-            "The Wilds"
-        ],
-        [
-            "Blind Man's Lagoon",
-            "N-6",
-            "Small Island",
-            "The Wilds"
-        ],
-        [
-            "Booty Isle",
-            "K-20",
-            "Small Island",
-            "The Ancient Isles "
-        ],
-        [
-            "Boulder Cay",
-            "G-5",
-            "Small Island",
-            "The Shores of Plenty"
-        ],
-        [
-            "Brimstone Rock",
-            "X-18",
-            "Small Island",
-            "The Devil's Roar"
-        ],
-        [
-            "Castaway Isle",
-            "K-14",
-            "Small Island",
-            "The Ancient Isles"
-        ],
-        [
-            "Chicken Isle",
-            "I-16",
-            "Small Island",
-            "The Ancient Isles"
-        ],
-        [
-            "Cinder Islet",
-            "U-14",
-            "Small Island",
-            "The Devil's Roar"
-        ],
-        [
-            "Crescent Isle",
-            "B-9",
-            "Small Island",
-            "The Shores of Plenty"
-        ],
-        [
-            "Cursewater Shores",
-            "Y-13",
-            "Small Island",
-            "The Devil's Roar"
-        ],
-        [
-            "Cutlass Cay",
-            "M-18",
-            "Small Island",
-            "The Ancient Isles "
-        ],
-        [
-            "Flame's End",
-            "V-19",
-            "Small Island",
-            "The Devil's Roar"
-        ],
-        [
-            "Fools Lagoon",
-            "I-14",
-            "Small Island",
-            "The Ancient Isles "
-        ],
-        [
-            "Forsaken Brink",
-            "U-16",
-            "Small Island",
-            "The Devil's Roar"
-        ],
-        [
-            "Glowstone Cay",
-            "Z-18",
-            "Small Island",
-            "The Devil's Roar"
-        ],
-        [
-            "Isle of Last Words",
-            "O-9",
-            "Small Island",
-            "The Wilds"
-        ],
-        [
-            "Lagoon of Whispers",
-            "D-12",
-            "Small Island",
-            "The Shores of Plenty"
-        ],
-        [
-            "Liar's Backbone",
-            "S-11",
-            "Small Island",
-            "The Wilds"
-        ],
-        [
-            "Lonely Isle",
-            "G-8",
-            "Small Island",
-            "The Shores of Plenty"
-        ],
-        [
-            "Lookout Point",
-            "I-20",
-            "Small Island",
-            "The Ancient Isles "
-        ],
-        [
-            "Magma's Tide",
-            "Y-20",
-            "Small Island",
-            "The Devil's Roar"
-        ],
-        [
-            "Mutineer Rock",
-            "N-19",
-            "Small Island",
-            "The Ancient Isles "
-        ],
-        [
-            "Old Salts Atoll",
-            "F-18",
-            "Small Island",
-            "The Ancient Isles "
-        ],
-        [
-            "Paradise Spring",
-            "L-17",
-            "Small Island",
-            "The Ancient Isles "
-        ],
-        [
-            "Picaroon Palms",
-            "I-4",
-            "Small Island",
-            "The Shores of Plenty"
-        ],
-        [
-            "Plunderer's Plight",
-            "Q-6",
-            "Small Island",
-            "The Wilds"
-        ],
-        [
-            "Rapier Cay",
-            "D-8",
-            "Small Island",
-            "The Shores of Plenty"
-        ],
-        [
-            "Roaring Sands",
-            "U-21",
-            "Small Island",
-            "The Devil's Roar"
-        ],
-        [
-            "Rum Runner Isle",
-            "H-9",
-            "Small Island",
-            "The Shores of Plenty"
-        ],
-        [
-            "Salty Sands",
-            "G-3",
-            "Small Island",
-            "The Shores of Plenty"
-        ],
-        [
-            "Sandy Shallows",
-            "D-5",
-            "Small Island",
-            "The Shores of Plenty"
-        ],
-        [
-            "Scorched Pass",
-            "X-11",
-            "Small Island",
-            "The Devil's Roar"
-        ],
-        [
-            "Scurvy Isley",
-            "K-4",
-            "Small Island",
-            "The Wilds"
-        ],
-        [
-            "Sea Dog's Rest",
-            "C-11",
-            "Small Island",
-            "The Shores of Plenty"
-        ],
-        [
-            "Shark Tooth Key",
-            "P-13",
-            "Small Island",
-            "The Wilds"
-        ],
-        [
-            "Shiver Retreat",
-            "Q-11",
-            "Small Island",
-            "The Wilds"
-        ],
-        [
-            "Tri-Rock Isle",
-            "R-10",
-            "Small Island",
-            "The Wilds"
-        ],
-        [
-            "Twin Groves",
-            "H-11",
-            "Small Island",
-            "The Shores of Plenty"
-        ],
-        [
-            "Ashen Reaches",
-            "V-23",
-            "Large Island",
-            "The Devil's Roar"
-        ],
-        [
-            "Cannon Cove",
-            "G-10",
-            "Large Island",
-            "The Shores of Plenty"
-        ],
-        [
-            "Crook's Hollow",
-            "M-16",
-            "Large Island",
-            "The Ancient Isles"
-        ],
-        [
-            "Devil's Ridge",
-            "P-19",
-            "Large Island",
-            "The Ancient Isles"
-        ],
-        [
-            "Discovery Ridge",
-            "E-17",
-            "Large Island",
-            "The Ancient Isles"
-        ],
-        [
-            "Fetcher's Rest",
-            "V-12",
-            "Large Island",
-            "The Devil's Roar"
-        ],
-        [
-            "Flintlock Peninsula",
-            "W-14",
-            "Large Island",
-            "The Devil's Roar"
-        ],
-        [
-            "Kraken's Fall",
-            "R-12",
-            "Large Island",
-            "The Wilds"
-        ],
-        [
-            "Lone Cove",
-            "H-6",
-            "Large Island",
-            "The Shores of Plenty"
-        ],
-        [
-            "Marauder's Arch",
-            "Q-3",
-            "Large Island",
-            "The Wilds"
-        ],
-        [
-            "Mermaid's Hideaway",
-            "B-13",
-            "Large Island",
-            "The Shores of Plenty"
-        ],
-        [
-            "Old Faithful Isle",
-            "M-4",
-            "Large Island",
-            "The Wilds"
-        ],
-        [
-            "Plunder Valley",
-            "G-16",
-            "Large Island",
-            "The Ancient Isles"
-        ],
-        [
-            "Ruby's Fall",
-            "Y-16",
-            "Large Island",
-            "The Devil's Roar"
-        ],
-        [
-            "Sailor's Bounty",
-            "C-4",
-            "Large Island",
-            "The Shores of Plenty"
-        ],
-        [
-            "Shark Bait Cove",
-            "H-19",
-            "Large Island",
-            "The Ancient Isles"
-        ],
-        [
-            "Shipwreck Bay",
-            "M-10",
-            "Large Island",
-            "The Wilds"
-        ],
-        [
-            "Smugglers' Bay",
-            "F-3",
-            "Large Island",
-            "The Shores of Plenty"
-        ],
-        [
-            "Snake Island",
-            "K-16",
-            "Large Island",
-            "The Ancient Isles"
-        ],
-        [
-            "The Crooked Masts",
-            "O-11",
-            "Large Island",
-            "The Wilds"
-        ],
-        [
-            "The Devil's Thirst",
-            "W-21",
-            "Large Island",
-            "The Devil's Roar"
-        ],
-        [
-            "The Sunken Grove",
-            "P-7",
-            "Large Island",
-            "The Wilds"
-        ],
-        [
-            "Thieves' Haven",
-            "L-20",
-            "Large Island",
-            "The Ancient Isles"
-        ],
-        [
-            "Wanderers Refuge",
-            "F-12",
-            "Large Island",
-            "The Shores of Plenty"
-        ],
-        [
-            "Hidden Spring Keep",
-            "I-8",
-            "Fortress",
-            "The Shores of Plenty"
-        ],
-        [
-            "Keel Haul Fort",
-            "C-6",
-            "Fortress",
-            "The Shores of Plenty"
-        ],
-        [
-            "Kraken Watchtower",
-            "L-6",
-            "Fortress",
-            "The Wilds"
-        ],
-        [
-            "Lost Gold Fort",
-            "H-17",
-            "Fortress",
-            "The Ancient Isles"
-        ],
-        [
-            "Old Boot Fort",
-            "L-14",
-            "Fortress",
-            "The Ancient Isles"
-        ],
-        [
-            "Molten Sands Fortress",
-            "Z-11",
-            "Fortress",
-            "The Devil's Roar"
-        ],
-        [
-            "Sailor's Knot Stronghold",
-            "E-14",
-            "Fortress",
-            "The Shores of Plenty"
-        ],
-        [
-            "Shark Fin Camp",
-            "P-5",
-            "Fortress",
-            "The Wilds"
-        ],
-        [
-            "Skull Keep",
-            "P-9",
-            "Fortress",
-            "The Wilds"
-        ],
-        [
-            "The Crow's Nest Fortress",
-            "O-17",
-            "Fortress",
-            "The Ancient Isles"
-        ],
-        [
-            "Brian's Bazaar",
-            "Y-12",
-            "Seaposts",
-            "The Devil's Roar"
-        ],
-        [
-            "Roaring Traders",
-            "U-20",
-            "Seaposts",
-            "The Devil's Roar"
-        ],
-        [
-            "Stephen's Spoils",
-            "L-15",
-            "Seaposts",
-            "The Wilds"
-        ],
-        [
-            "The Finest Trading Post",
-            "F-17",
-            "Seaposts",
-            "The Wilds"
-        ],
-        [
-            "The North Star Seapost",
-            "H-10",
-            "Seaposts",
-            "The Shores of Plenty"
-        ],
-        [
-            "The Spoils of Plenty Store",
-            "B-7",
-            "Seaposts",
-            "The Shores of Plenty"
-        ],
-        [
-            "The Wild Treasures Store",
-            "O-4",
-            "Seaposts",
-            "The Wilds"
-        ],
-        [
-            "Three Paces East Seapost",
-            "S-9",
-            "Seaposts",
-            "The Wilds"
-        ]
+    [
+      "Sanctuary Outpost",
+      "F-7",
+      "Outpost",
+      "The Shores of Plenty"
+    ],
+    [
+      "Golden Sands Outpost",
+      "D-10",
+      "Outpost",
+      "The Shores of Plenty"
+    ],
+    [
+      "Plunder Outpost",
+      "J-18",
+      "Outpost",
+      "The Ancient Isles "
+    ],
+    [
+      "Ancient Spire Outpost",
+      "Q-17",
+      "Outpost",
+      "The Ancient Isles"
+    ],
+    [
+      "Galleon's Grave Outpost",
+      "R-8",
+      "Outpost",
+      "The Wilds"
+    ],
+    [
+      "Dagger Tooth Outpost",
+      "M-8",
+      "Outpost",
+      "The Wilds"
+    ],
+    [
+      "Morrow's Peak Outpost",
+      "V-17",
+      "Outpost",
+      "The Devil's Roar"
+    ],
+    [
+      "Barnacle Cay",
+      "O-15",
+      "Small Island",
+      "The Ancient Isles "
+    ],
+    [
+      "Black Sand Atoll",
+      "O-3",
+      "Small Island",
+      "The Wilds"
+    ],
+    [
+      "Black Water Enclave",
+      "R-5",
+      "Small Island",
+      "The Wilds"
+    ],
+    [
+      "Blind Man's Lagoon",
+      "N-6",
+      "Small Island",
+      "The Wilds"
+    ],
+    [
+      "Booty Isle",
+      "K-20",
+      "Small Island",
+      "The Ancient Isles "
+    ],
+    [
+      "Boulder Cay",
+      "G-5",
+      "Small Island",
+      "The Shores of Plenty"
+    ],
+    [
+      "Brimstone Rock",
+      "X-18",
+      "Small Island",
+      "The Devil's Roar"
+    ],
+    [
+      "Castaway Isle",
+      "K-14",
+      "Small Island",
+      "The Ancient Isles"
+    ],
+    [
+      "Chicken Isle",
+      "I-16",
+      "Small Island",
+      "The Ancient Isles"
+    ],
+    [
+      "Cinder Islet",
+      "U-14",
+      "Small Island",
+      "The Devil's Roar"
+    ],
+    [
+      "Crescent Isle",
+      "B-9",
+      "Small Island",
+      "The Shores of Plenty"
+    ],
+    [
+      "Cursewater Shores",
+      "Y-13",
+      "Small Island",
+      "The Devil's Roar"
+    ],
+    [
+      "Cutlass Cay",
+      "M-18",
+      "Small Island",
+      "The Ancient Isles "
+    ],
+    [
+      "Flame's End",
+      "V-19",
+      "Small Island",
+      "The Devil's Roar"
+    ],
+    [
+      "Fools Lagoon",
+      "I-14",
+      "Small Island",
+      "The Ancient Isles "
+    ],
+    [
+      "Forsaken Brink",
+      "U-16",
+      "Small Island",
+      "The Devil's Roar"
+    ],
+    [
+      "Glowstone Cay",
+      "Z-18",
+      "Small Island",
+      "The Devil's Roar"
+    ],
+    [
+      "Isle of Last Words",
+      "O-9",
+      "Small Island",
+      "The Wilds"
+    ],
+    [
+      "Lagoon of Whispers",
+      "D-12",
+      "Small Island",
+      "The Shores of Plenty"
+    ],
+    [
+      "Liar's Backbone",
+      "S-11",
+      "Small Island",
+      "The Wilds"
+    ],
+    [
+      "Lonely Isle",
+      "G-8",
+      "Small Island",
+      "The Shores of Plenty"
+    ],
+    [
+      "Lookout Point",
+      "I-20",
+      "Small Island",
+      "The Ancient Isles "
+    ],
+    [
+      "Magma's Tide",
+      "Y-20",
+      "Small Island",
+      "The Devil's Roar"
+    ],
+    [
+      "Mutineer Rock",
+      "N-19",
+      "Small Island",
+      "The Ancient Isles "
+    ],
+    [
+      "Old Salts Atoll",
+      "F-18",
+      "Small Island",
+      "The Ancient Isles "
+    ],
+    [
+      "Paradise Spring",
+      "L-17",
+      "Small Island",
+      "The Ancient Isles "
+    ],
+    [
+      "Picaroon Palms",
+      "I-4",
+      "Small Island",
+      "The Shores of Plenty"
+    ],
+    [
+      "Plunderer's Plight",
+      "Q-6",
+      "Small Island",
+      "The Wilds"
+    ],
+    [
+      "Rapier Cay",
+      "D-8",
+      "Small Island",
+      "The Shores of Plenty"
+    ],
+    [
+      "Roaring Sands",
+      "U-21",
+      "Small Island",
+      "The Devil's Roar"
+    ],
+    [
+      "Rum Runner Isle",
+      "H-9",
+      "Small Island",
+      "The Shores of Plenty"
+    ],
+    [
+      "Salty Sands",
+      "G-3",
+      "Small Island",
+      "The Shores of Plenty"
+    ],
+    [
+      "Sandy Shallows",
+      "D-5",
+      "Small Island",
+      "The Shores of Plenty"
+    ],
+    [
+      "Scorched Pass",
+      "X-11",
+      "Small Island",
+      "The Devil's Roar"
+    ],
+    [
+      "Scurvy Isley",
+      "K-4",
+      "Small Island",
+      "The Wilds"
+    ],
+    [
+      "Sea Dog's Rest",
+      "C-11",
+      "Small Island",
+      "The Shores of Plenty"
+    ],
+    [
+      "Shark Tooth Key",
+      "P-13",
+      "Small Island",
+      "The Wilds"
+    ],
+    [
+      "Shiver Retreat",
+      "Q-11",
+      "Small Island",
+      "The Wilds"
+    ],
+    [
+      "Tri-Rock Isle",
+      "R-10",
+      "Small Island",
+      "The Wilds"
+    ],
+    [
+      "Twin Groves",
+      "H-11",
+      "Small Island",
+      "The Shores of Plenty"
+    ],
+    [
+      "Ashen Reaches",
+      "V-23",
+      "Large Island",
+      "The Devil's Roar"
+    ],
+    [
+      "Cannon Cove",
+      "G-10",
+      "Large Island",
+      "The Shores of Plenty"
+    ],
+    [
+      "Crook's Hollow",
+      "M-16",
+      "Large Island",
+      "The Ancient Isles"
+    ],
+    [
+      "Devil's Ridge",
+      "P-19",
+      "Large Island",
+      "The Ancient Isles"
+    ],
+    [
+      "Discovery Ridge",
+      "E-17",
+      "Large Island",
+      "The Ancient Isles"
+    ],
+    [
+      "Fetcher's Rest",
+      "V-12",
+      "Large Island",
+      "The Devil's Roar"
+    ],
+    [
+      "Flintlock Peninsula",
+      "W-14",
+      "Large Island",
+      "The Devil's Roar"
+    ],
+    [
+      "Kraken's Fall",
+      "R-12",
+      "Large Island",
+      "The Wilds"
+    ],
+    [
+      "Lone Cove",
+      "H-6",
+      "Large Island",
+      "The Shores of Plenty"
+    ],
+    [
+      "Marauder's Arch",
+      "Q-3",
+      "Large Island",
+      "The Wilds"
+    ],
+    [
+      "Mermaid's Hideaway",
+      "B-13",
+      "Large Island",
+      "The Shores of Plenty"
+    ],
+    [
+      "Old Faithful Isle",
+      "M-4",
+      "Large Island",
+      "The Wilds"
+    ],
+    [
+      "Plunder Valley",
+      "G-16",
+      "Large Island",
+      "The Ancient Isles"
+    ],
+    [
+      "Ruby's Fall",
+      "Y-16",
+      "Large Island",
+      "The Devil's Roar"
+    ],
+    [
+      "Sailor's Bounty",
+      "C-4",
+      "Large Island",
+      "The Shores of Plenty"
+    ],
+    [
+      "Shark Bait Cove",
+      "H-19",
+      "Large Island",
+      "The Ancient Isles"
+    ],
+    [
+      "Shipwreck Bay",
+      "M-10",
+      "Large Island",
+      "The Wilds"
+    ],
+    [
+      "Smugglers' Bay",
+      "F-3",
+      "Large Island",
+      "The Shores of Plenty"
+    ],
+    [
+      "Snake Island",
+      "K-16",
+      "Large Island",
+      "The Ancient Isles"
+    ],
+    [
+      "The Crooked Masts",
+      "O-11",
+      "Large Island",
+      "The Wilds"
+    ],
+    [
+      "The Devil's Thirst",
+      "W-21",
+      "Large Island",
+      "The Devil's Roar"
+    ],
+    [
+      "The Sunken Grove",
+      "P-7",
+      "Large Island",
+      "The Wilds"
+    ],
+    [
+      "Thieves' Haven",
+      "L-20",
+      "Large Island",
+      "The Ancient Isles"
+    ],
+    [
+      "Wanderers Refuge",
+      "F-12",
+      "Large Island",
+      "The Shores of Plenty"
+    ],
+    [
+      "Hidden Spring Keep",
+      "I-8",
+      "Fortress",
+      "The Shores of Plenty"
+    ],
+    [
+      "Keel Haul Fort",
+      "C-6",
+      "Fortress",
+      "The Shores of Plenty"
+    ],
+    [
+      "Kraken Watchtower",
+      "L-6",
+      "Fortress",
+      "The Wilds"
+    ],
+    [
+      "Lost Gold Fort",
+      "H-17",
+      "Fortress",
+      "The Ancient Isles"
+    ],
+    [
+      "Old Boot Fort",
+      "L-14",
+      "Fortress",
+      "The Ancient Isles"
+    ],
+    [
+      "Molten Sands Fortress",
+      "Z-11",
+      "Fortress",
+      "The Devil's Roar"
+    ],
+    [
+      "Sailor's Knot Stronghold",
+      "E-14",
+      "Fortress",
+      "The Shores of Plenty"
+    ],
+    [
+      "Shark Fin Camp",
+      "P-5",
+      "Fortress",
+      "The Wilds"
+    ],
+    [
+      "Skull Keep",
+      "P-9",
+      "Fortress",
+      "The Wilds"
+    ],
+    [
+      "The Crow's Nest Fortress",
+      "O-17",
+      "Fortress",
+      "The Ancient Isles"
+    ],
+    [
+      "Brian's Bazaar",
+      "Y-12",
+      "Seaposts",
+      "The Devil's Roar"
+    ],
+    [
+      "Roaring Traders",
+      "U-20",
+      "Seaposts",
+      "The Devil's Roar"
+    ],
+    [
+      "Stephen's Spoils",
+      "L-15",
+      "Seaposts",
+      "The Wilds"
+    ],
+    [
+      "The Finest Trading Post",
+      "F-17",
+      "Seaposts",
+      "The Wilds"
+    ],
+    [
+      "The North Star Seapost",
+      "H-10",
+      "Seaposts",
+      "The Shores of Plenty"
+    ],
+    [
+      "The Spoils of Plenty Store",
+      "B-7",
+      "Seaposts",
+      "The Shores of Plenty"
+    ],
+    [
+      "The Wild Treasures Store",
+      "O-4",
+      "Seaposts",
+      "The Wilds"
+    ],
+    [
+      "Three Paces East Seapost",
+      "S-9",
+      "Seaposts",
+      "The Wilds"
     ]
+  ]
 }
