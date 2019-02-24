@@ -28,31 +28,44 @@
         let id = ctx.getImageData(0, 0, 256, 256);
         let sobel = new ImageData(256, 256);
         let data = id.data;
-
+        
+        const lum = (id, i) => (id[i] * .299 + id[i + 1] * .587 + id[i + 2] * .114) | 0;
+        const px = (x, y
+        
         // the meat
-        let max = 0;
-        let min = Infinity;
         for (let i = 0; i < data.length; i+=4) {
           let x = i % 256;
           let y = i / 256 | 0;
-          if (x > 0 && y <
-        }
-
-        let threshold = .90;
-        console.log(min, max);
-        let threshValue = (max - min) * threshold + min;
-        for (let i = 0; i < data.length; i+=4) {
-          let blue = data[i] + data[i+1];
-          if (blue > threshValue) {
-            data[i] = data[i+1] = data[i+2] = 0;
-          } else {
-            data[i] = data[i+1] = data[i+2] = 255;
+          if (x > 0 && x < 255 && y > 0 && y < 255) {
+            let l = lum(data, i);
+            let val = (
+              -1 * lum(data, i - 256 * 4 - 4) + 0 + 1 * lum(data, i - 256 * 4 + 4) +
+              -2 * lum(data, i - 4          ) + 0 + 2 * lum(data, i +           4) +
+              -1 * lum(data, i + 256 * 4 - 4) + 0 + 1 * lum(data, i + 256 * 4 + 4)
+            );
+            // console.log(val);
+            sobel.data[i] = sobel.data[i + 1] = sobel.data[i + 2] = val;
           }
+          
         }
+        
+        console.log(sobel);
+
+        // let threshold = .90;
+        // console.log(min, max);
+        // let threshValue = (max - min) * threshold + min;
+        // for (let i = 0; i < data.length; i+=4) {
+        //   let blue = data[i] + data[i+1];
+        //   if (blue > threshValue) {
+        //     data[i] = data[i+1] = data[i+2] = 0;
+        //   } else {
+        //     data[i] = data[i+1] = data[i+2] = 255;
+        //   }
+        // }
 
         let ct = contours(id);
 
-        ctx.putImageData(id, 0, 0);
+        // ctx.putImageData(sobel, 0, 0);
       });
       img.src="https://cdn.glitch.com/4945918e-6ab3-4a5c-8549-71e001d5a0e8%2Fb9-crescent-isle.png?1550987729191"
     </script>
