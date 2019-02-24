@@ -18,7 +18,7 @@ async function init() {
   console.log(sigs);
   let stream = await navigator.mediaDevices.getUserMedia({
     audio: false,
-    video: true
+    video: { facingMode: "environment" },
   })
   start(stream);
 }
