@@ -17,7 +17,7 @@ img.addEventListener('load', function () {
 
   // the meat
   let min = Infinity;
-  let max = 0;
+  let max = -Infinity;
   for (let i = 0; i < data.length; i+=4) {
     let x = (i / 4) % 256;
     let y = (i / 4) / 256 | 0;
@@ -42,9 +42,9 @@ img.addEventListener('load', function () {
     }
   }
 
-  ctx.putImageData(sobel, 0, 0);
+  // ctx.putImageData(sobel, 0, 0);
 
-  let threshold = .2;
+  let threshold = .1;
   let threshValue = (max - min) * threshold + min;
   console.log(max, min, threshValue);
   for (let i = 0; i < data.length; i+=4) {
@@ -55,7 +55,7 @@ img.addEventListener('load', function () {
     }
   }
 
-  ctx.putImageData(sobel, 0, 0);
+  // ctx.putImageData(sobel, 0, 0);
 
   let ct = contours(sobel);
 
@@ -91,4 +91,4 @@ img.addEventListener('load', function () {
 
 });
 
-img.src="https://cdn.glitch.com/4945918e-6ab3-4a5c-8549-71e001d5a0e8%2Ff-18.png?1550992364448";
+img.src="https://cdn.glitch.com/4945918e-6ab3-4a5c-8549-71e001d5a0e8%2Fo-9.png?1550992687882";
