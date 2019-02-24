@@ -16,5 +16,5 @@
       "\\.md$"
     ]
   },
-  "throttle": 2000
+  "throttle": 500
 }
