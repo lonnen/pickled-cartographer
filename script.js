@@ -15,7 +15,11 @@ navigator.mediaDevices.getUserMedia({
     video.play();
   }
   
-  let canvas = document.querySelector('canvas');
+  let outCanvas = document.querySelector('.out');
+  outCanvas.width = 
+  
+  
+  let canvas = document.createElement('canvas');
   canvas.width = sensorWidth;
   canvas.height = sensorHeight;
   let ctx = canvas.getContext('2d');
@@ -49,9 +53,22 @@ navigator.mediaDevices.getUserMedia({
         data[i] = data[i+1] = data[i+2] = 0;
       }
     }
-
+    
+    let ct = contours(id);
+    
     ctx.putImageData(id, 0, 0);
-    setTimeout(frame, 100);
+    
+    if (ct.length) {
+      ctx.beginPath();
+      ctx.strokeStyle = '#0f0';
+      for (let pos of ct[0]) {
+        let x = (pos % sensorWidth) * video.videoWidth / sensorWidth;
+        ctx.lineTo(pos % sensorWidth, pos / sensorWidth | 0);
+      }
+      ctx.stroke();
+    }
+    
+    setTimeout(frame, 1000);
   }
   frame();
 }).catch(e => console.error(e));
