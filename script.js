@@ -9,6 +9,7 @@ let camera = new Camera();
 let pre = document.querySelector('pre');
 
 let sigs = [];
+let islands;
 
 let app = document.querySelector('.app');
 app.appendChild(camera.video);
@@ -18,6 +19,9 @@ async function init() {
   let signatures = await fetch('signatures.json');
   signatures = await signatures.json();
   sigs = signatures.map(s => [s[0], atob(s[1]).split('').map(c => c.charCodeAt(0))]);
+  
+  let islandsRequest = await fetch('islands.json');
+  islands = await signatures.json();
 }
 
 document.querySelector('button').addEventListener('click', function () {

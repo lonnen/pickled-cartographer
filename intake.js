@@ -1,4 +1,4 @@
-/ * global contours, sobelFilter */
+/* global contours, sobelFilter */
 
 let signatureSize = 64;
 let signature = document.createElement('canvas');
