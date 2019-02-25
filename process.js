@@ -29,10 +29,10 @@ function sobelFilter(id) {
       sobel.data[i] = sobel.data[i + 1] = sobel.data[i + 2] = 0;
     }
   }
-  return { min, max, sobel }
+  return [ min, max, sobel ]
 }
 
-function normalize({ min, max, id }) {
+function normalize([ min, max, id ]) {
   let data = id.data;
   let range = max - min;
   for (let i = 0; i < data.length; i+=4) {

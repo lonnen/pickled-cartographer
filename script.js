@@ -1,4 +1,4 @@
-/* global contours sobelFilter Camera */
+/* global contours, sobelFilter, normalize, Camera */
 if (window.location.protocol !== 'https:') {
   window.location = 'https://' + window.location.hostname;
 }
@@ -18,7 +18,6 @@ let app = document.querySelector('.app');
 app.appendChild(camera.video);
 
 async function init() {
-  console.log('click');
   let signatures = await fetch('signatures.json');
   signatures = await signatures.json();
   sigs = signatures.map(s => [s[0], atob(s[1]).split('').map(c => c.charCodeAt(0))]);
@@ -28,6 +27,7 @@ async function init() {
 }
 
 document.querySelector('button').addEventListener('click', function () {
+  console.log('click');
   camera.init().then(start);
 });
 
@@ -75,12 +75,11 @@ function start(stream) {
       data[i + 2] = yellow;
     }
     
-    let { min, max, sobel } = sobelFilter(id);
+    let sobel = normalize(sobelFilter(id));
     
     ctx.putImageData(sobel, 0, 0);
     
-    let threshold = .2;
-    let threshValue = (max - min) * threshold + min;
+    let threshValue = .4 * 255 | 0;
     for (let i = 0; i < data.length; i+=4) {
       if (sobel.data[i] > threshValue) {
         sobel.data[i] = sobel.data[i+1] = sobel.data[i+2] = 255;
@@ -122,7 +121,7 @@ function start(stream) {
       }
       outCtx.stroke();
       sigCtx.drawImage(video, sampleX + minX - 8, sampleY + minY - 8, maxX - minX + 16, maxY - minY + 16, 0, 0, signatureSize, signatureSize);
-      let cameraSig = sobelFilter(sigCtx.getImageData(0, 0, signatureSize, signatureSize)).sobel;
+      let cameraSig = normalize(sobelFilter(sigCtx.getImageData(0, 0, signatureSize, signatureSize)));
       sigCtx.putImageData(cameraSig, 0, 0);
       
       for (let i = 0; i < smoothSignature.length; i++) {
