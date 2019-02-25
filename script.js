@@ -6,32 +6,32 @@ let sensorHeight = 256;
 let signatureSize = 64;
 
 let camera = new Camera();
+let pre = document.querySelector('pre');
 
 let sigs = [];
 
 let app = document.querySelector('.app');
+app.appendChild(camera.video);
 
 async function init() {
   console.log('click');
   let signatures = await fetch('signatures.json');
   signatures = await signatures.json();
   sigs = signatures.map(s => [s[0], atob(s[1]).split('').map(c => c.charCodeAt(0))]);
-  console.log(sigs);
-  let stream = await navigator.mediaDevices.getUserMedia({
-    audio: false,
-    video: { facingMode: "environment" },
-  })
-  start(stream);
 }
 
-
+document.querySelector('button').addEventListener('click', function () {
+  camera.init().then(start);
+});
 
 function start(stream) {
-  video.srcObject = stream;
-  video.play();
-  
   let outCanvas = document.querySelector('.output');
   let outCtx = outCanvas.getContext('2d');
+  let video = camera.video;
+  
+  app.addEventListener('click', function () {
+    camera.flip();
+  });
   
   let canvas = document.createElement('canvas');
   // app.appendChild(canvas);
@@ -89,7 +89,6 @@ function start(stream) {
         }
       }
       outCtx.clearRect(0, 0, canvas.width, canvas.height);
-      outCtx.strokeRect(0, 0, 100, 100);
       outCtx.beginPath();
       outCtx.lineWidth = 3;
       outCtx.strokeStyle = '#0f0';

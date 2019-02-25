@@ -22,6 +22,10 @@ h1 {
   height: 100%;
 }
 
+.app video {
+  max-width: 100%;
+}
+
 .app {
   border:1px solid #000;
 }
