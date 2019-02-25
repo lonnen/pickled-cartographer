@@ -1,12 +1,11 @@
-/* global contours */
+/* global contours sobelFilter Camera */
 
 let sensorWidth = 256;
 let sensorHeight = 256;
 
 let signatureSize = 64;
 
-let video = document.querySelector("video");
-let hasCapture = false;
+let camera = new Camera();
 
 let sigs = [];
 
@@ -24,6 +23,8 @@ async function init() {
   })
   start(stream);
 }
+
+
 
 function start(stream) {
   video.srcObject = stream;
