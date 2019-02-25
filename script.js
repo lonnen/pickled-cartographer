@@ -62,7 +62,10 @@ function start(stream) {
   function frame() {
     outCanvas.width = video.videoWidth;
     outCanvas.height = video.videoHeight;
-    ctx.drawImage(video, 0, 0, video.videoWidth, video.videoHeight, 0, 0, sensorWidth, sensorHeight);
+    let sampleSize = Math.min(video.videoWidth, video.videoHeight) * .75;
+    let sampleX = video.videoWidth / 2 - sampleSize / 2;
+    let sampleY = video.videoHeight / 2 - sampleSize / 2;
+    ctx.drawImage(video, sampleX, sampleY, sampleSize, sampleSize, 0, 0, sensorWidth, sensorHeight);
     let id = ctx.getImageData(0, 0, sensorWidth, sensorHeight);
     let data = id.data;
     
@@ -96,7 +99,8 @@ function start(stream) {
         }
       }
       outCtx.clearRect(0, 0, canvas.width, canvas.height);
-      outCtx.fillRect(canvas.width * 
+      outCtx.strokeStyle = '#00f';
+      outCtx.strokeRect(sampleX, sampleY, sampleSize, sampleSize);
       outCtx.beginPath();
       outCtx.lineWidth = 3;
       outCtx.strokeStyle = '#0f0';
@@ -108,16 +112,16 @@ function start(stream) {
       let maxY = -Infinity;
       
       for (let pos of contour) {
-        let x = (pos % sensorWidth) * video.videoWidth / sensorWidth;
-        let y = (pos / sensorWidth | 0) * video.videoHeight / sensorHeight;
+        let x = (pos % sensorWidth) * sampleSize / sensorWidth;
+        let y = (pos / sensorWidth | 0) * sampleSize / sensorHeight;
         if (x < minX) minX = x;
         if (y < minY) minY = y;
         if (x > maxX) maxX = x;
         if (y > maxY) maxY = y;
-        outCtx.lineTo(x, y);
+        outCtx.lineTo(sampleX + x, sampleY + y);
       }
       outCtx.stroke();
-      sigCtx.drawImage(video, minX - 8, minY - 8, maxX - minX + 16, maxY - minY + 16, 0, 0, signatureSize, signatureSize);
+      sigCtx.drawImage(video, sampleX + minX - 8, sampleY + minY - 8, maxX - minX + 16, maxY - minY + 16, 0, 0, signatureSize, signatureSize);
       let cameraSig = sobelFilter(sigCtx.getImageData(0, 0, signatureSize, signatureSize)).sobel;
       sigCtx.putImageData(cameraSig, 0, 0);
       
