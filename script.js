@@ -10,6 +10,8 @@ let hasCapture = false;
 
 let sigs = [];
 
+let app = document.querySelector('.app');
+
 async function init() {
   console.log('click');
   let signatures = await fetch('signatures.json');
@@ -31,7 +33,7 @@ function start(stream) {
   let outCtx = outCanvas.getContext('2d');
   
   let canvas = document.createElement('canvas');
-  document.body.appendChild(canvas);
+  // app.appendChild(canvas);
   canvas.width = sensorWidth;
   canvas.height = sensorHeight;
   
@@ -118,12 +120,14 @@ function start(stream) {
         return [id, score];
       });
                               
-      let islandID = scores.sort((a, b) => { return a[1] - b[1] })[0];
-      console.log(islandID);
+      let topMatches = scores.sort((a, b) => { return a[1] - b[1] });
+      document.querySelector('.matches').innerHTML = topMatches.slice(0,3).map(match => {
+        return `<li>${match[0]} - ${match[1]}</li>`;
+      }).join('\n');
       
     }
     
-    setTimeout(frame, 500);
+    setTimeout(frame, 100);
   }
   
   video.addEventListener('play', function () {
