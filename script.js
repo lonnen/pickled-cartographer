@@ -1,4 +1,7 @@
 /* global contours sobelFilter Camera */
+if (window.location.protocol !== 'https:') {
+  window.location = 'https://' + window.location.hostname;
+}
 
 let sensorWidth = 256;
 let sensorHeight = 256;
@@ -21,7 +24,7 @@ async function init() {
   sigs = signatures.map(s => [s[0], atob(s[1]).split('').map(c => c.charCodeAt(0))]);
   
   let islandsRequest = await fetch('islands.json');
-  islands = await signatures.json();
+  islands = (await islandsRequest.json()).islands;
 }
 
 document.querySelector('button').addEventListener('click', function () {
@@ -93,6 +96,7 @@ function start(stream) {
         }
       }
       outCtx.clearRect(0, 0, canvas.width, canvas.height);
+      outCtx.fillRect(canvas.width * 
       outCtx.beginPath();
       outCtx.lineWidth = 3;
       outCtx.strokeStyle = '#0f0';
@@ -131,7 +135,8 @@ function start(stream) {
                               
       let topMatches = scores.sort((a, b) => { return a[1] - b[1] });
       document.querySelector('.matches').innerHTML = topMatches.slice(0,3).map(match => {
-        return `<li>${match[0]} - ${match[1]}</li>`;
+        let island = islands[match[0]];
+        return `<li>${island.name} - ${match[0]} - ${match[1]}</li>`;
       }).join('\n');
       
     }
