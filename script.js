@@ -109,7 +109,6 @@ function start(stream) {
         outCtx.lineTo(x, y);
       }
       outCtx.stroke();
-      outCtx.strokeRect(minX, minY, maxX-minX, maxY-minY);
       sigCtx.drawImage(video, minX - 8, minY - 8, maxX - minX + 16, maxY - minY + 16, 0, 0, signatureSize, signatureSize);
       let cameraSig = sobelFilter(sigCtx.getImageData(0, 0, signatureSize, signatureSize)).sobel;
       sigCtx.putImageData(cameraSig, 0, 0);
