@@ -42,7 +42,10 @@ function start(stream) {
   signature.height = signatureSize;
   document.body.appendChild(signature);
   let sigCtx = signature.getContext('2d');
-  
+
+  let smoothSignature = new Uint8ClampedArray(signatureSize * signatureSize);
+  smoothSignature.fill(0);
+
   let ctx = canvas.getContext('2d');
   let grayBuffer = new Float32Array(sensorWidth * sensorHeight);
   let kernelBuffer = new Float32Array(sensorWidth * sensorHeight);
@@ -67,7 +70,6 @@ function start(stream) {
     
     let threshold = .5;
     let threshValue = (max - min) * threshold + min;
-    console.log(max, min, threshValue);
     for (let i = 0; i < data.length; i+=4) {
       if (sobel.data[i] > threshValue) {
         sobel.data[i] = sobel.data[i+1] = sobel.data[i+2] = 255;
@@ -109,13 +111,17 @@ function start(stream) {
       outCtx.stroke();
       outCtx.strokeRect(minX, minY, maxX-minX, maxY-minY);
       sigCtx.drawImage(video, minX - 8, minY - 8, maxX - minX + 16, maxY - minY + 16, 0, 0, signatureSize, signatureSize);
-      let cameraSig = sobelFilter(sigCtx.getImageData(0, 0, signatureSize, signatureSize)).sobel
+      let cameraSig = sobelFilter(sigCtx.getImageData(0, 0, signatureSize, signatureSize)).sobel;
       sigCtx.putImageData(cameraSig, 0, 0);
+      
+      for (let i = 0; i < smoothSignature.length; i++) {
+        smoothSignature[i] = (smoothSignature[i] * .9 + cameraSig.data[i * 4] * .1) | 0;
+      }
       
       let scores = sigs.map(([id, sig]) => {
         let score = 0;
         for (let i = 0; i < sig.length; i++) {
-          score += Math.abs(sig[i] - cameraSig.data[i * 4]);
+          score += Math.abs(sig[i] - smoothSignature[i]);
         }
         return [id, score];
       });
