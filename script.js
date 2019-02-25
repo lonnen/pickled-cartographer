@@ -75,11 +75,11 @@ function start(stream) {
       data[i + 2] = yellow;
     }
     
-    let { min, max, sobel } = sobelFilter(id);
+    let { min, max, sobel } = normalize(sobelFilter(id));
     
     ctx.putImageData(sobel, 0, 0);
     
-    let threshold = .5;
+    let threshold = .2;
     let threshValue = (max - min) * threshold + min;
     for (let i = 0; i < data.length; i+=4) {
       if (sobel.data[i] > threshValue) {
