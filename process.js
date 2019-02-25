@@ -32,6 +32,17 @@ function sobelFilter(id) {
   return { min, max, sobel }
 }
 
+function normalize({ min, max, id }) {
+  let data = id.data;
+  let range = max - min;
+  for (let i = 0; i < data.length; i+=4) {
+    data[i] = (data[i] - min) / range * 255 | 0;
+    data[i+1] = (data[i+1] - min) / range * 255 | 0;
+    data[i+2] = (data[i+2] - min) / range * 255 | 0;
+  }
+  return id;
+}
+
 function arrayToBase64(array) {
   return btoa(Array.prototype.map.call(id.data, byte => String.fromCharCode(byte)).join(''));
 }

@@ -75,7 +75,7 @@ function start(stream) {
       data[i + 2] = yellow;
     }
     
-    let { min, max, sobel } = normalize(sobelFilter(id));
+    let { min, max, sobel } = sobelFilter(id);
     
     ctx.putImageData(sobel, 0, 0);
     
