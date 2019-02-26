@@ -81,7 +81,7 @@ function start(stream) {
     ctx.putImageData(CV.grayscale(CV.normalize(boosted), sensorSize), 0, 0);
         
     let contourList = contours(boosted, sensorSize);
-    contourList = contourList.filter(c => c.length > 200);
+    contourList = contourList.filter(c => c.length > 150);
     
     if (contourList.length) {
       
@@ -123,11 +123,13 @@ function start(stream) {
         0, 0, signatureSize, signatureSize
       );
       
-      let cameraSig = CV.normalize(CV.kernelFilter(
+      let cameraSig = CV.kernelFilter(
         CV.lumArray(sigCtx.getImageData(0, 0, signatureSize, signatureSize)),
         signatureSize,
         CV.sobelXKernel
-      ));
+      );
+      
+      cameraSig = CV.map(cameraSig, n => Math.min(1, Math.abs(n) * 3));
       
       for (let i = 0; i < smoothSignature.length; i++) {
         smoothSignature[i] = (smoothSignature[i] * .9 + cameraSig[i] * .1);

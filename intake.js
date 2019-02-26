@@ -9,6 +9,7 @@ let sigCtx = signature.getContext('2d');
 
 let fullOutput = [];
 
+// this works, amazingly
 function inPaint(id) {
   let data = id.data;
   
@@ -184,9 +185,10 @@ function processIsland(island) {
         
         let islandData = sigCtx.getImageData(0, 0, signatureSize, signatureSize);
         
-        inPaint(islandData)
-        sigCtx.putImageData(islandData, 0, 0);
+        inPaint(islandData);
         
+        sigCtx.putImageData(islandData, 0, 0);
+
         let islandSig = CV.lumArray(islandData);
                 
         islandSig = CV.kernelFilter(
@@ -196,9 +198,7 @@ function processIsland(island) {
         );
         
         islandSig = CV.normalize(CV.map(islandSig, n => Math.min(1, Math.abs(n) * 3)));
-        
-        islandSig = CV.lumArray(sigCtx.getImageData(0, 0, signatureSize, signatureSize));
-        
+                
         sigCtx.putImageData(CV.grayscale(islandSig, signatureSize), 0, 0);
 
         let i = new Image();
