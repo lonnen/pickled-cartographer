@@ -1,4 +1,4 @@
-/* global contours, sobelFilter, normalize, Camera */
+/* global CV, Camera */
 if (window.location.protocol !== 'https:') {
   window.location = 'https://' + window.location.hostname;
 }
@@ -66,28 +66,13 @@ function start(stream) {
     let sampleX = video.videoWidth / 2 - sampleSize / 2;
     let sampleY = video.videoHeight / 2 - sampleSize / 2;
     ctx.drawImage(video, sampleX, sampleY, sampleSize, sampleSize, 0, 0, sensorWidth, sensorHeight);
-    let id = ctx.getImageData(0, 0, sensorWidth, sensorHeight);
-    let data = id.data;
     
-    // the meat
-    for (let i = 0; i < data.length; i+=4) {
-      let yellow = data[i] + data[i+1] / 2 | 0;
-      data[i + 2] = yellow;
-    }
+    let pixelData = CV.lumArray(ctx.getImageData(0, 0, sensorWidth, sensorHeight));
     
-    let sobel = normalize(sobelFilter(id));
+    let sobel = CV.normalize(CV.kernelFilter(id, CV.sobelXKernel));
     
-    ctx.putImageData(sobel, 0, 0);
-    
-    let threshValue = .4 * 255 | 0;
-    for (let i = 0; i < data.length; i+=4) {
-      if (sobel.data[i] > threshValue) {
-        sobel.data[i] = sobel.data[i+1] = sobel.data[i+2] = 255;
-      } else {
-        sobel.data[i] = sobel.data[i+1] = sobel.data[i+2] = 0;
-      }
-    }
-    
+    ctx.putImageData(grayscale(normalize(sobel)), 0, 0);
+        
     let ct = contours(sobel);
     
     if (ct.length) {

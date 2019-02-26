@@ -4,7 +4,7 @@
   (global.contours = factory());
 }(this, (function () { 'use strict';
 
-var traceContour = function (imageData, i) {
+var traceContour = function (data, width, i) {
 
   var start = i;
   var contour = [start];
@@ -14,7 +14,7 @@ var traceContour = function (imageData, i) {
 
   while(true) {
 
-    var n = neighbours(imageData, p, 0);
+    var n = neighbours(data, p, 0);
 
     // find the first neighbour starting from
     // the direction we came from
@@ -35,7 +35,7 @@ var traceContour = function (imageData, i) {
     for (var idx = (void 0), i$1 = 0; i$1 < 8; i$1++) {
       idx = (i$1 + offset) % 8;
 
-      if(imageData.data[n[idx] * 4] > 0) {
+      if(imageData.data[n[idx]] > 0) {
         direction = idx;
         break
       }
@@ -88,28 +88,25 @@ var offset = function (array, by) { return array.map( function (_v, i) { return 
   ); };
 
 
-function contourFinder (imageData) {
+function contourFinder (data) {
 
   var contours = [];
   var seen = [];
   var skipping = false;
 
-  for (var i = 0; i < imageData.data.length; i++) {
+  for (var i = 0; i < data.length; i++) {
 
-    if(imageData.data[i * 4] > 128) {
+    if(data[i] > 128) {
       if(seen[i] || skipping) {
         skipping = true;
-
       } else {
-        var contour = traceContour(imageData, i);
-
+        var contour = traceContour(data, i);
         contours.push(contour);
 
         // this could be a _lot_ more efficient
         contour.forEach(function (c) {
           seen[c] = true;
         });
-
       }
 
     } else {
