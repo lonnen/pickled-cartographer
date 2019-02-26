@@ -67,7 +67,7 @@ function start(stream) {
     outCanvas.height = video.videoHeight;
     
     outCtx.clearRect(0, 0, canvas.width, canvas.height);
-    outCtx.strokeStyle = '#00f';
+    outCtx.strokeStyle = '#0ff';
     outCtx.strokeRect(sampleX, sampleY, sampleSize, sampleSize);
 
     ctx.drawImage(video, sampleX, sampleY, sampleSize, sampleSize, 0, 0, sensorSize, sensorSize);
