@@ -40,7 +40,7 @@ function start(stream) {
   });
   
   let canvas = document.createElement('canvas');
-  document.body.appendChild(canvas);
+  // document.body.appendChild(canvas);
   canvas.width = sensorSize;
   canvas.height = sensorSize;
   
