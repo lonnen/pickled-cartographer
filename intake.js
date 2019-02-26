@@ -9,6 +9,22 @@ let sigCtx = signature.getContext('2d');
 
 let fullOutput = [];
 
+function inPaint(id) {
+  let data = id.data;
+  
+  const idx = (x, y) => (y * id.width + x) * 4;
+  const copyPixel = (id, id2) => {
+    data[id2] = data[id];
+    data[id2 + 1] = data[id + 1];
+    data[id2 + 2] = data[id + 2];
+    data[id2 + 3] = data[id + 3];
+  }
+
+  for (let i = 0; i < id.width / 2; i++) {
+    
+  }
+}
+
 async function init() {
   let assets = await fetch('/.glitch-assets');
   assets = await assets.text();
@@ -121,8 +137,12 @@ function processIsland(island) {
           0, 0, signatureSize, signatureSize
         );
         
+        let islandData = sigCtx.getImageData(0, 0, signatureSize, signatureSize);
+        inPaint(islandData)
         
-        let islandSig = CV.kernelFilter(
+        let islandSig = CV.lumArray(islandData);
+                
+        islandSig = CV.kernelFilter(
           CV.lumArray(sigCtx.getImageData(0, 0, signatureSize, signatureSize)),
           signatureSize,
           CV.sobelXKernel
