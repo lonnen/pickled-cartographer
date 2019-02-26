@@ -9,7 +9,13 @@ class Camera {
   _startCapture() {
     return navigator.mediaDevices.getUserMedia({
       audio: false,
-      video: { facingMode: this.selfie ? "user" : "environment" }
+      video: {
+        facingMode: this.selfie ? "user" : "environment",
+        frameRate: {
+          ideal: 1,
+          max: 5,
+        }
+      }
     }).then(stream => {
       this.stream = stream;
       this.video.srcObject = stream;
