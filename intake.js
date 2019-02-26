@@ -13,15 +13,39 @@ function inPaint(id) {
   let data = id.data;
   
   const idx = (x, y) => (y * id.width + x) * 4;
-  const copyPixel = (id, id2) => {
+  const copyPixel = (x, y, x2, y2) => {
+    let id = idx(x, y);
+    let id2 = idx(x2, y2);
     data[id2] = data[id];
     data[id2 + 1] = data[id + 1];
     data[id2 + 2] = data[id + 2];
     data[id2 + 3] = data[id + 3];
   }
-
-  for (let i = 0; i < id.width / 2; i++) {
-    
+  
+  let cx = id.width / 2;
+  for (let i = 0; i < cx; i++) {
+    for (let j = 0; j < cx; j++) {
+      let x = cx - i - 1;
+      let y = cx - j;
+      if (data[idx(x, y) + 3] < 255) {
+        copyPixel(x, y + 1, x, y);
+      }
+      x = cx + i;
+      y = cx - j;
+      if (data[idx(x, y) + 3] < 255) {
+        copyPixel(x, y + 1, x, y);
+      }
+      x = cx - i - 1;
+      y = cx + j;
+      if (data[idx(x, y) + 3] < 255) {
+        copyPixel(x, y - 1, x, y);
+      }
+      x = cx + i;
+      y = cx + j;
+      if (data[idx(x, y) + 3] < 255) {
+        copyPixel(x, y - 1, x, y);
+      }
+    }
   }
 }
 
@@ -139,6 +163,7 @@ function processIsland(island) {
         
         let islandData = sigCtx.getImageData(0, 0, signatureSize, signatureSize);
         inPaint(islandData)
+        sigCtx.putImageData(islandData, 0, 0);
         
         let islandSig = CV.lumArray(islandData);
                 
@@ -152,7 +177,7 @@ function processIsland(island) {
         
         islandSig = CV.lumArray(sigCtx.getImageData(0, 0, signatureSize, signatureSize));
         
-        sigCtx.putImageData(CV.grayscale(islandSig, signatureSize), 0, 0);
+        // sigCtx.putImageData(CV.grayscale(islandSig, signatureSize), 0, 0);
 
         let i = new Image();
         i.src = signature.toDataURL();
