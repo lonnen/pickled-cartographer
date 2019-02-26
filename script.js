@@ -81,7 +81,7 @@ function start(stream) {
     ctx.putImageData(CV.grayscale(CV.normalize(boosted), sensorSize), 0, 0);
         
     let contourList = contours(boosted, sensorSize);
-    contourList = contourList.filter(c => c.length > 150);
+    contourList = contourList.filter(c => c.length > 200);
     
     if (contourList.length) {
       
@@ -110,9 +110,19 @@ function start(stream) {
       }
       
       let sigSampleSize = Math.max(maxX - minX, maxY - minY);
-      let sigCenterX = minX + maxX / 2)
+      let sigCenterX = (minX + maxX) / 2;
+      let sigCenterY = (minY + maxY) / 2;
+      let sigSampleLeft = sigCenterX - sigSampleSize / 2;
+      let sigSampleTop = sigCenterY - sigSampleSize / 2;
       
-      sigCtx.drawImage(video, sampleX + minX - 8, sampleY + minY - 8, maxX - minX + 16, maxY - minY + 16, 0, 0, signatureSize, signatureSize);
+      sigCtx.drawImage(
+        video,
+        sampleX + sigSampleLeft - 8,
+        sampleY + sigSampleTop - 8,
+        sigSampleSize + 16, sigSampleSize + 16,
+        0, 0, signatureSize, signatureSize
+      );
+      
       let cameraSig = CV.normalize(CV.kernelFilter(
         CV.lumArray(sigCtx.getImageData(0, 0, signatureSize, signatureSize)),
         signatureSize,

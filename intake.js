@@ -100,11 +100,25 @@ function processIsland(island) {
 
         ctx.strokeRect(minX, minY, maxX-minX, maxY-minY);
 
-        let cx = Math.max(0, minX * img.width / 256 - 16);
-        let cy = Math.max(0, minY * img.height / 256 - 16);
-        let cw = Math.min(maxX * img.width / 256 + 16, img.width) - cx;
-        let ch = Math.min(maxY * img.height / 256 + 16, img.height) - cy;
-        sigCtx.drawImage(img, cx, cy, cw, ch, 0, 0, signatureSize, signatureSize);
+        minX = minX * img.width / 256;
+        maxX = maxX * img.width / 256;
+        minY = minY * img.height / 256;
+        maxY = maxY * img.height / 256;
+        
+        let sigSampleSize = Math.max(maxX - minX, maxY - minY);
+        let sigCenterX = (minX + maxX) / 2;
+        let sigCenterY = (minY + maxY) / 2;
+        let sigSampleLeft = sigCenterX - sigSampleSize / 2;
+        let sigSampleTop = sigCenterY - sigSampleSize / 2;
+        
+        sigCtx.drawImage(
+          img,
+          sigSampleLeft - 16,
+          sigSampleTop - 16,
+          sigSampleSize + 32,
+          sigSampleSize + 32,
+          0, 0, signatureSize, signatureSize
+        );
         
         let islandSig = CV.kernelFilter(
           CV.lumArray(sigCtx.getImageData(0, 0, signatureSize, signatureSize)),
