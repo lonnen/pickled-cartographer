@@ -25,12 +25,15 @@ async function init() {
   islands = (await islandsRequest.json()).islands;
 }
 
-document.querySelector('button').addEventListener('click', function () {
+let button = document.querySelector('button');
+
+button.addEventListener('click', function () {
   console.log('click');
   camera.init().then(start);
 });
 
 function start(stream) {
+  button.style.display = 'none';
   let outCanvas = document.querySelector('.output');
   let outCtx = outCanvas.getContext('2d');
   let video = camera.video;
@@ -45,9 +48,10 @@ function start(stream) {
   canvas.height = sensorSize;
   
   let signature = document.createElement('canvas');
+  signature.classList.add('signature');
   signature.width = signatureSize;
   signature.height = signatureSize;
-  document.body.appendChild(signature);
+  app.appendChild(signature);
   let sigCtx = signature.getContext('2d');
 
   let smoothSignature = new Float32Array(signatureSize * signatureSize);
