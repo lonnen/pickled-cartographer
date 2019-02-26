@@ -40,7 +40,7 @@ function start(stream) {
   });
   
   let canvas = document.createElement('canvas');
-  app.appendChild(canvas);
+  document.body.appendChild(canvas);
   canvas.width = sensorSize;
   canvas.height = sensorSize;
   
@@ -59,11 +59,21 @@ function start(stream) {
 
   let alphaBuffer = new Uint8ClampedArray(sensorSize * sensorSize);
   function frame() {
-    outCanvas.width = video.videoWidth;
-    outCanvas.height = video.videoHeight;
     let sampleSize = Math.min(video.videoWidth, video.videoHeight) * .75;
     let sampleX = video.videoWidth / 2 - sampleSize / 2;
     let sampleY = video.videoHeight / 2 - sampleSize / 2;
+    
+    outCanvas.width = video.videoWidth;
+    outCanvas.height = video.videoHeight;
+    
+    outCtx.clearRect(0, 0, canvas.width, canvas.height);
+    outCtx.strokeStyle = '#00f';
+    outCtx.strokeRect(sampleX, sampleY, sampleSize, sampleSize);
+    outCtx.beginPath();
+    outCtx.lineWidth = 3;
+    outCtx.strokeStyle = '#0f0';
+    outCtx.fillStyle= '#rgba(0, 255, 0, .5)';
+
     ctx.drawImage(video, sampleX, sampleY, sampleSize, sampleSize, 0, 0, sensorSize, sensorSize);
     
     let pixelData = CV.lumArray(ctx.getImageData(0, 0, sensorSize, sensorSize));
@@ -71,10 +81,11 @@ function start(stream) {
     
     let sobel = CV.kernelFilter(pixelData, sensorSize, CV.sobelXKernel);
     sobel = CV.kernelFilter(sobel, sensorSize, CV.sobelYKernel);
-    ctx.putImageData(CV.grayscale(CV.normalize(sobel), sensorSize), 0, 0);
+    let boosted = CV.map(sobel, n => Math.min(1, Math.abs(n)) > .5 ? 1: 0);
+    ctx.putImageData(CV.grayscale(CV.normalize(boosted), sensorSize), 0, 0);
         
-    let ct = {};//contours(sobel, sensorSize);
-    // console.log(ct[0]);
+    let ct = contours(boosted, sensorSize);
+    ct = ct.filter(c => c.length > 400);
     
     if (ct.length) {
       let contour = ct[0];
@@ -83,13 +94,7 @@ function start(stream) {
           contour = ct[i];
         }
       }
-      outCtx.clearRect(0, 0, canvas.width, canvas.height);
-      outCtx.strokeStyle = '#00f';
-      outCtx.strokeRect(sampleX, sampleY, sampleSize, sampleSize);
-      outCtx.beginPath();
-      outCtx.lineWidth = 3;
-      outCtx.strokeStyle = '#0f0';
-      outCtx.fillStyle= '#rgba(0, 255, 0, .5)';
+      console.log(contour.length);
       
       let minX = Infinity;
       let minY = Infinity;
@@ -106,6 +111,8 @@ function start(stream) {
         outCtx.lineTo(sampleX + x, sampleY + y);
       }
       outCtx.stroke();
+      
+      /*
       sigCtx.drawImage(video, sampleX + minX - 8, sampleY + minY - 8, maxX - minX + 16, maxY - minY + 16, 0, 0, signatureSize, signatureSize);
       let cameraSig = normalize(sobelFilter(sigCtx.getImageData(0, 0, signatureSize, signatureSize)));
       sigCtx.putImageData(cameraSig, 0, 0);
@@ -127,6 +134,7 @@ function start(stream) {
         let island = islands[match[0]];
         return `<li>${island.name} - ${match[0]} - ${match[1]}</li>`;
       }).join('\n');
+      */
       
     }
     
