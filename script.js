@@ -69,10 +69,6 @@ function start(stream) {
     outCtx.clearRect(0, 0, canvas.width, canvas.height);
     outCtx.strokeStyle = '#00f';
     outCtx.strokeRect(sampleX, sampleY, sampleSize, sampleSize);
-    outCtx.beginPath();
-    outCtx.lineWidth = 3;
-    outCtx.strokeStyle = '#0f0';
-    outCtx.fillStyle= '#rgba(0, 255, 0, .5)';
 
     ctx.drawImage(video, sampleX, sampleY, sampleSize, sampleSize, 0, 0, sensorSize, sensorSize);
     
@@ -84,36 +80,46 @@ function start(stream) {
     let boosted = CV.map(sobel, n => Math.min(1, Math.abs(n)) > .5 ? 1: 0);
     ctx.putImageData(CV.grayscale(CV.normalize(boosted), sensorSize), 0, 0);
         
-    let ct = contours(boosted, sensorSize);
-    ct = ct.filter(c => c.length > 400);
+    let contourList = contours(boosted, sensorSize);
+    contourList = contourList.filter(c => c.length > 400);
     
-    if (ct.length) {
-      let contour = ct[0];
-      for (let i = 1; i < ct.length; i++) {
-        if (ct[i].length > contour.length) {
-          contour = ct[i];
-        }
-      }
-      console.log(contour.length);
+    if (contourList.length) {
       
+      outCtx.beginPath();
+      outCtx.lineWidth = 3;
+      outCtx.strokeStyle = '#0f0';
+      outCtx.fillStyle= '#rgba(0, 255, 0, .5)';
+
       let minX = Infinity;
       let minY = Infinity;
       let maxX = -Infinity;
       let maxY = -Infinity;
       
-      for (let pos of contour) {
-        let x = (pos % sensorSize) * sampleSize / sensorSize;
-        let y = (pos / sensorSize | 0) * sampleSize / sensorSize;
-        if (x < minX) minX = x;
-        if (y < minY) minY = y;
-        if (x > maxX) maxX = x;
-        if (y > maxY) maxY = y;
-        outCtx.lineTo(sampleX + x, sampleY + y);
+      for (let contour of contourList) {
+        outCtx.beginPath();
+        for (let pos of contour) {
+          let x = (pos % sensorSize) * sampleSize / sensorSize;
+          let y = (pos / sensorSize | 0) * sampleSize / sensorSize;
+          if (x < minX) minX = x;
+          if (y < minY) minY = y;
+          if (x > maxX) maxX = x;
+          if (y > maxY) maxY = y;
+          outCtx.lineTo(sampleX + x, sampleY + y);
+        }
+        outCtx.stroke();
       }
-      outCtx.stroke();
       
-      /*
       sigCtx.drawImage(video, sampleX + minX - 8, sampleY + minY - 8, maxX - minX + 16, maxY - minY + 16, 0, 0, signatureSize, signatureSize);
+      let cameraSig = CV.normalize(
+        CV.kernelFilter(
+          CV.lumArray(sigCtx.getImageData(0, 0, signatureSize, signatureSize)),
+          signatureSize,
+          CV.sobelXKernel
+        )
+      );
+      sigCtx.putImageData(CV.grayscale(cameraSig, signatureSize), 0, 0);
+
+      /*
       let cameraSig = normalize(sobelFilter(sigCtx.getImageData(0, 0, signatureSize, signatureSize)));
       sigCtx.putImageData(cameraSig, 0, 0);
       
