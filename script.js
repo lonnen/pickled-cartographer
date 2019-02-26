@@ -153,12 +153,9 @@ function start(stream) {
           
     }
     
-    setTimeout(frame, 100);
+    setTimeout(frame, 50);
   }
-  
-  video.addEventListener('play', function () {
-    frame();
-  });
+  frame();
 }
 
 // document.querySelector('.app').addEventListener('click', init);
