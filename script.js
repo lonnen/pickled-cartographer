@@ -1,10 +1,9 @@
-/* global CV, Camera */
+/* global CV, Camera, contours */
 if (window.location.protocol !== 'https:') {
   window.location = 'https://' + window.location.hostname;
 }
 
-let sensorWidth = 256;
-let sensorHeight = 256;
+let sensorSize = 256;
 
 let signatureSize = 64;
 
@@ -41,9 +40,9 @@ function start(stream) {
   });
   
   let canvas = document.createElement('canvas');
-  // app.appendChild(canvas);
-  canvas.width = sensorWidth;
-  canvas.height = sensorHeight;
+  app.appendChild(canvas);
+  canvas.width = sensorSize;
+  canvas.height = sensorSize;
   
   let signature = document.createElement('canvas');
   signature.width = signatureSize;
@@ -55,25 +54,27 @@ function start(stream) {
   smoothSignature.fill(0);
 
   let ctx = canvas.getContext('2d');
-  let grayBuffer = new Float32Array(sensorWidth * sensorHeight);
-  let kernelBuffer = new Float32Array(sensorWidth * sensorHeight);
+  let grayBuffer = new Float32Array(sensorSize * sensorSize);
+  let kernelBuffer = new Float32Array(sensorSize * sensorSize);
 
-  let alphaBuffer = new Uint8ClampedArray(sensorWidth * sensorHeight);
+  let alphaBuffer = new Uint8ClampedArray(sensorSize * sensorSize);
   function frame() {
     outCanvas.width = video.videoWidth;
     outCanvas.height = video.videoHeight;
     let sampleSize = Math.min(video.videoWidth, video.videoHeight) * .75;
     let sampleX = video.videoWidth / 2 - sampleSize / 2;
     let sampleY = video.videoHeight / 2 - sampleSize / 2;
-    ctx.drawImage(video, sampleX, sampleY, sampleSize, sampleSize, 0, 0, sensorWidth, sensorHeight);
+    ctx.drawImage(video, sampleX, sampleY, sampleSize, sampleSize, 0, 0, sensorSize, sensorSize);
     
-    let pixelData = CV.lumArray(ctx.getImageData(0, 0, sensorWidth, sensorHeight));
+    let pixelData = CV.lumArray(ctx.getImageData(0, 0, sensorSize, sensorSize));
+    ctx.putImageData(CV.grayscale(pixelData, sensorSize), 0, 0);
     
-    let sobel = CV.normalize(CV.kernelFilter(id, CV.sobelXKernel));
-    
-    ctx.putImageData(grayscale(normalize(sobel)), 0, 0);
+    let sobel = CV.kernelFilter(pixelData, sensorSize, CV.sobelXKernel);
+    sobel = CV.kernelFilter(sobel, sensorSize, CV.sobelYKernel);
+    ctx.putImageData(CV.grayscale(CV.normalize(sobel), sensorSize), 0, 0);
         
-    let ct = contours(sobel);
+    let ct = {};//contours(sobel, sensorSize);
+    // console.log(ct[0]);
     
     if (ct.length) {
       let contour = ct[0];
@@ -96,8 +97,8 @@ function start(stream) {
       let maxY = -Infinity;
       
       for (let pos of contour) {
-        let x = (pos % sensorWidth) * sampleSize / sensorWidth;
-        let y = (pos / sensorWidth | 0) * sampleSize / sensorHeight;
+        let x = (pos % sensorSize) * sampleSize / sensorSize;
+        let y = (pos / sensorSize | 0) * sampleSize / sensorSize;
         if (x < minX) minX = x;
         if (y < minY) minY = y;
         if (x > maxX) maxX = x;
