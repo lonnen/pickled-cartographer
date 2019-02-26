@@ -40,7 +40,7 @@ function start(stream) {
   });
   
   let canvas = document.createElement('canvas');
-  // document.body.appendChild(canvas);
+  document.body.appendChild(canvas);
   canvas.width = sensorSize;
   canvas.height = sensorSize;
   
@@ -77,11 +77,11 @@ function start(stream) {
     
     let sobel = CV.kernelFilter(pixelData, sensorSize, CV.sobelXKernel);
     sobel = CV.kernelFilter(sobel, sensorSize, CV.sobelYKernel);
-    let boosted = CV.map(sobel, n => Math.abs(n) > .5 ? 1: 0);
+    let boosted = CV.map(sobel, n => Math.abs(n) > .4 ? 1: 0);
     ctx.putImageData(CV.grayscale(CV.normalize(boosted), sensorSize), 0, 0);
         
     let contourList = contours(boosted, sensorSize);
-    contourList = contourList.filter(c => c.length > 400);
+    contourList = contourList.filter(c => c.length > 200);
     
     if (contourList.length) {
       

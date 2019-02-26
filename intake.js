@@ -41,7 +41,7 @@ async function init() {
       pos++;
       setTimeout(next, 0);
     }).catch(e => {
-      console.error(e)
+      console.error(e);
       pos++;
       setTimeout(next, 0);
     });
@@ -66,45 +66,53 @@ function processIsland(island) {
       let data = CV.lumArray(id);
 
       let sobel = CV.kernelFilter(data, 256, CV.sobelXKernel);
-      let boosted = CV.map(sobel, n => Math.min(1, Math.abs(n)) > .25 ? 1: 0);
+      let boosted = CV.map(sobel, n => Math.abs(n) > .25 ? 1: 0);
       ctx.putImageData(CV.grayscale(CV.normalize(boosted), 256), 0, 0);
 
-      let ct = contours(boosted);
+      let contourList = contours(boosted);
+      contourList = contourList.filter(c => c.length > 10);
+      console.log(contourList);
 
-      if (ct.length) {
-        let contour = ct[0];
-        for (let i = 1; i < ct.length; i++) {
-          if (ct[i].length > contour.length) {
-            contour = ct[i];
-          }
-        }
+      if (contourList.length) {
         ctx.beginPath();
         ctx.lineWidth = 3;
         ctx.strokeStyle = '#0f0';
+        ctx.fillStyle= '#rgba(0, 255, 0, .5)';
 
         let minX = Infinity;
         let minY = Infinity;
         let maxX = -Infinity;
         let maxY = -Infinity;
 
-        for (let pos of contour) {
-          let x = pos % 256;
-          let y = pos / 256 | 0;
-          if (x < minX) minX = x;
-          if (y < minY) minY = y;
-          if (x > maxX) maxX = x;
-          if (y > maxY) maxY = y;
-          ctx.lineTo(x, y);
+        for (let contour of contourList) {
+          ctx.beginPath();
+          for (let pos of contour) {
+            let x = (pos % 256) * 256 / 256;
+            let y = (pos / 256 | 0) * 256 / 256;
+            if (x < minX) minX = x;
+            if (y < minY) minY = y;
+            if (x > maxX) maxX = x;
+            if (y > maxY) maxY = y;
+            ctx.lineTo(x, y);
+          }
+          ctx.stroke();
         }
-        ctx.stroke();
+
         ctx.strokeRect(minX, minY, maxX-minX, maxY-minY);
+
         let cx = Math.max(0, minX * img.width / 256 - 8);
         let cy = Math.max(0, minY * img.height / 256 - 8);
         let cw = Math.min(maxX * img.width / 256 + 8, img.width) - cx;
         let ch = Math.min(maxY * img.height / 256 + 8, img.height) - cy;
         sigCtx.drawImage(img, cx, cy, cw, ch, 0, 0, signatureSize, signatureSize);
-        let islandSig = sobelFilter(sigCtx.getImageData(0, 0, signatureSize, signatureSize)).sobel;
-        sigCtx.putImageData(islandSig, 0, 0);
+        
+        let islandSig = CV.kernelFilter(
+          CV.lumArray(sigCtx.getImageData(0, 0, signatureSize, signatureSize)),
+          signatureSize,
+          CV.sobelXKernel
+        );
+        
+        sigCtx.putImageData(CV.graycale(normalize(islandSig), signatureSize), 0, 0);
 
         let i = new Image();
         i.src = signature.toDataURL();
