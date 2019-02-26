@@ -1,4 +1,4 @@
-/* global contours, sobelFilter */
+/* global contours, CV */
 
 let signatureSize = 64;
 let signature = document.createElement('canvas');
@@ -63,22 +63,12 @@ function processIsland(island) {
       let ctx = canvas.getContext('2d');
       ctx.drawImage(img, 0, 0, img.width, img.height, 0, 0, 256, 256);
       let id = ctx.getImageData(0, 0, 256, 256);
-      let data = id.data;
+      let data = CV.lumArray(id);
 
-      let { min, max, sobel } = sobelFilter(id);
-      // ctx.putImageData(sobel, 0, 0);
-
-      let threshold = .1;
-      let threshValue = (max - min) * threshold + min;
-      for (let i = 0; i < data.length; i+=4) {
-        if (sobel.data[i] > threshValue) {
-          sobel.data[i] = sobel.data[i+1] = sobel.data[i+2] = 255;
-        } else {
-          sobel.data[i] = sobel.data[i+1] = sobel.data[i+2] = 0;
-        }
-      }
-
-      // ctx.putImageData(sobel, 0, 0);
+      let sobel = CV.kernelFilter(data, 256, CV.sobelXKernel);
+      sobel = CV.kernelFilter(sobel, 256, CV.sobelYKernel);
+      let boosted = CV.map(sobel, n => Math.min(1, Math.abs(n)) > .5 ? 1: 0);
+      ctx.putImageData(sobel, 0, 0);
 
       let ct = contours(sobel);
 

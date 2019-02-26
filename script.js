@@ -50,7 +50,7 @@ function start(stream) {
   document.body.appendChild(signature);
   let sigCtx = signature.getContext('2d');
 
-  let smoothSignature = new Uint8ClampedArray(signatureSize * signatureSize);
+  let smoothSignature = new Float32Array(signatureSize * signatureSize);
   smoothSignature.fill(0);
 
   let ctx = canvas.getContext('2d');
@@ -110,14 +110,17 @@ function start(stream) {
       }
       
       sigCtx.drawImage(video, sampleX + minX - 8, sampleY + minY - 8, maxX - minX + 16, maxY - minY + 16, 0, 0, signatureSize, signatureSize);
-      let cameraSig = CV.normalize(
-        CV.kernelFilter(
-          CV.lumArray(sigCtx.getImageData(0, 0, signatureSize, signatureSize)),
-          signatureSize,
-          CV.sobelXKernel
-        )
+      let cameraSig = CV.kernelFilter(
+        CV.lumArray(sigCtx.getImageData(0, 0, signatureSize, signatureSize)),
+        signatureSize,
+        CV.sobelXKernel
       );
-      sigCtx.putImageData(CV.grayscale(cameraSig, signatureSize), 0, 0);
+      
+      for (let i = 0; i < smoothSignature.length; i++) {
+        smoothSignature[i] = (smoothSignature[i] * .9 + Math.abs(cameraSig[i]) * .1);
+      }
+      
+      sigCtx.putImageData(CV.grayscale(CV.normalize(smoothSignature), signatureSize), 0, 0);
 
       /*
       let cameraSig = normalize(sobelFilter(sigCtx.getImageData(0, 0, signatureSize, signatureSize)));
