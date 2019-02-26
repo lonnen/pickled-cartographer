@@ -26,12 +26,12 @@ function inPaint(id) {
   for (let i = 0; i < cx; i++) {
     for (let j = 0; j < cx; j++) {
       let x = cx - i - 1;
-      let y = cx - j;
+      let y = cx - j - 1;
       if (data[idx(x, y) + 3] < 255) {
         copyPixel(x, y + 1, x, y);
       }
       x = cx + i;
-      y = cx - j;
+      y = cx - j - 1;
       if (data[idx(x, y) + 3] < 255) {
         copyPixel(x, y + 1, x, y);
       }
@@ -44,6 +44,27 @@ function inPaint(id) {
       y = cx + j;
       if (data[idx(x, y) + 3] < 255) {
         copyPixel(x, y - 1, x, y);
+      }
+      
+      x = cx - j - 1;
+      y = cx - i - 1;
+      if (data[idx(x, y) + 3] < 255) {
+        copyPixel(x + 1, y, x, y);
+      }
+      x = cx + j;
+      y = cx - i - 1;
+      if (data[idx(x, y) + 3] < 255) {
+        copyPixel(x + 1, y, x, y);
+      }
+      x = cx - j - 1;
+      y = cx + i;
+      if (data[idx(x, y) + 3] < 255) {
+        copyPixel(x - 1, y, x, y);
+      }
+      x = cx + j;
+      y = cx + i;
+      if (data[idx(x, y) + 3] < 255) {
+        copyPixel(x - 1, y, x, y);
       }
     }
   }
@@ -154,14 +175,15 @@ function processIsland(island) {
         sigCtx.clearRect(0, 0, signatureSize, signatureSize);
         sigCtx.drawImage(
           img,
-          sigSampleLeft - 16,
-          sigSampleTop - 16,
-          sigSampleSize + 32,
-          sigSampleSize + 32,
+          sigSampleLeft - 32,
+          sigSampleTop - 32,
+          sigSampleSize + 48,
+          sigSampleSize + 48,
           0, 0, signatureSize, signatureSize
         );
         
         let islandData = sigCtx.getImageData(0, 0, signatureSize, signatureSize);
+        
         inPaint(islandData)
         sigCtx.putImageData(islandData, 0, 0);
         
@@ -177,7 +199,7 @@ function processIsland(island) {
         
         islandSig = CV.lumArray(sigCtx.getImageData(0, 0, signatureSize, signatureSize));
         
-        // sigCtx.putImageData(CV.grayscale(islandSig, signatureSize), 0, 0);
+        sigCtx.putImageData(CV.grayscale(islandSig, signatureSize), 0, 0);
 
         let i = new Image();
         i.src = signature.toDataURL();
