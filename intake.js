@@ -66,11 +66,10 @@ function processIsland(island) {
       let data = CV.lumArray(id);
 
       let sobel = CV.kernelFilter(data, 256, CV.sobelXKernel);
-      sobel = CV.kernelFilter(sobel, 256, CV.sobelYKernel);
-      let boosted = CV.map(sobel, n => Math.min(1, Math.abs(n)) > .5 ? 1: 0);
-      ctx.putImageData(sobel, 0, 0);
+      let boosted = CV.map(sobel, n => Math.min(1, Math.abs(n)) > .25 ? 1: 0);
+      ctx.putImageData(CV.grayscale(CV.normalize(boosted), 256), 0, 0);
 
-      let ct = contours(sobel);
+      let ct = contours(boosted);
 
       if (ct.length) {
         let contour = ct[0];

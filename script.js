@@ -77,7 +77,7 @@ function start(stream) {
     
     let sobel = CV.kernelFilter(pixelData, sensorSize, CV.sobelXKernel);
     sobel = CV.kernelFilter(sobel, sensorSize, CV.sobelYKernel);
-    let boosted = CV.map(sobel, n => Math.min(1, Math.abs(n)) > .5 ? 1: 0);
+    let boosted = CV.map(sobel, n => Math.abs(n) > .5 ? 1: 0);
     ctx.putImageData(CV.grayscale(CV.normalize(boosted), sensorSize), 0, 0);
         
     let contourList = contours(boosted, sensorSize);
