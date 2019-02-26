@@ -40,7 +40,7 @@ function start(stream) {
   });
   
   let canvas = document.createElement('canvas');
-  document.body.appendChild(canvas);
+  // document.body.appendChild(canvas);
   canvas.width = sensorSize;
   canvas.height = sensorSize;
   
@@ -77,11 +77,11 @@ function start(stream) {
     
     let sobel = CV.kernelFilter(pixelData, sensorSize, CV.sobelXKernel);
     sobel = CV.kernelFilter(sobel, sensorSize, CV.sobelYKernel);
-    let boosted = CV.map(sobel, n => Math.abs(n) > .4 ? 1: 0);
+    let boosted = CV.map(sobel, n => Math.abs(n) > .3 ? 1: 0);
     ctx.putImageData(CV.grayscale(CV.normalize(boosted), sensorSize), 0, 0);
         
     let contourList = contours(boosted, sensorSize);
-    contourList = contourList.filter(c => c.length > 200);
+    contourList = contourList.filter(c => c.length > 150);
     
     if (contourList.length) {
       
@@ -109,26 +109,21 @@ function start(stream) {
         outCtx.stroke();
       }
       
+      let sigSampleSize = Math.max(maxX - minX, maxY - minY);
+      let sigCenterX = minX + maxX / 2)
+      
       sigCtx.drawImage(video, sampleX + minX - 8, sampleY + minY - 8, maxX - minX + 16, maxY - minY + 16, 0, 0, signatureSize, signatureSize);
-      let cameraSig = CV.kernelFilter(
+      let cameraSig = CV.normalize(CV.kernelFilter(
         CV.lumArray(sigCtx.getImageData(0, 0, signatureSize, signatureSize)),
         signatureSize,
         CV.sobelXKernel
-      );
+      ));
       
       for (let i = 0; i < smoothSignature.length; i++) {
-        smoothSignature[i] = (smoothSignature[i] * .9 + Math.abs(cameraSig[i]) * .1);
+        smoothSignature[i] = (smoothSignature[i] * .9 + cameraSig[i] * .1);
       }
       
       sigCtx.putImageData(CV.grayscale(CV.normalize(smoothSignature), signatureSize), 0, 0);
-
-      /*
-      let cameraSig = normalize(sobelFilter(sigCtx.getImageData(0, 0, signatureSize, signatureSize)));
-      sigCtx.putImageData(cameraSig, 0, 0);
-      
-      for (let i = 0; i < smoothSignature.length; i++) {
-        smoothSignature[i] = (smoothSignature[i] * .9 + cameraSig.data[i * 4] * .1) | 0;
-      }
       
       let scores = sigs.map(([id, sig]) => {
         let score = 0;
@@ -143,8 +138,7 @@ function start(stream) {
         let island = islands[match[0]];
         return `<li>${island.name} - ${match[0]} - ${match[1]}</li>`;
       }).join('\n');
-      */
-      
+          
     }
     
     setTimeout(frame, 100);

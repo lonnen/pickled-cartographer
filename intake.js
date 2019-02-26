@@ -100,10 +100,10 @@ function processIsland(island) {
 
         ctx.strokeRect(minX, minY, maxX-minX, maxY-minY);
 
-        let cx = Math.max(0, minX * img.width / 256 - 8);
-        let cy = Math.max(0, minY * img.height / 256 - 8);
-        let cw = Math.min(maxX * img.width / 256 + 8, img.width) - cx;
-        let ch = Math.min(maxY * img.height / 256 + 8, img.height) - cy;
+        let cx = Math.max(0, minX * img.width / 256 - 16);
+        let cy = Math.max(0, minY * img.height / 256 - 16);
+        let cw = Math.min(maxX * img.width / 256 + 16, img.width) - cx;
+        let ch = Math.min(maxY * img.height / 256 + 16, img.height) - cy;
         sigCtx.drawImage(img, cx, cy, cw, ch, 0, 0, signatureSize, signatureSize);
         
         let islandSig = CV.kernelFilter(
@@ -112,7 +112,9 @@ function processIsland(island) {
           CV.sobelXKernel
         );
         
-        sigCtx.putImageData(CV.graycale(normalize(islandSig), signatureSize), 0, 0);
+        islandSig = CV.normalize(islandSig);
+        
+        sigCtx.putImageData(CV.grayscale(islandSig, signatureSize), 0, 0);
 
         let i = new Image();
         i.src = signature.toDataURL();
@@ -120,8 +122,8 @@ function processIsland(island) {
         document.querySelector('.thumbs').appendChild(i);
         
         let dataOut = '';
-        for (let i = 0; i < islandSig.data.length; i+=4) {
-          dataOut += String.fromCharCode(islandSig.data[i]);
+        for (let i = 0; i < islandSig.length; i++) {
+          dataOut += String.fromCharCode(islandSig[i]);
         }
         fullOutput.push([island.name.replace('.png',''), btoa(dataOut)]);
         resolve();
