@@ -32,10 +32,23 @@ h1 {
   border:1px solid #000;
 }
 
+.confidence {
+  display: inline-block;
+  height: .8em;
+  background: #000;
+}
+
 .signature {
   position: absolute;
   bottom: 1em;
   left: 1em;
+}
+
+.matches {
+  margin: .5em 0;
+  padding: 1em;
+  list-style-type: none;
+  white-space: nowrap;
 }
 
 button {

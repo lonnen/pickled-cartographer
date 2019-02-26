@@ -150,9 +150,9 @@ function start(stream) {
       });
                               
       let topMatches = scores.sort((a, b) => { return a[1] - b[1] });
-      document.querySelector('.matches').innerHTML = topMatches.slice(0,3).map(match => {
+      document.querySelector('.matches').innerHTML = topMatches.slice(0,3).map((match, i) => {
         let island = islands[match[0]];
-        return `<li>${island.name} - ${match[0]} - ${match[1]}</li>`;
+        return `<li>${island.name} - ${match[0]} - <span class="confidence" style="width:${topMatches[i + 1][1] - match[1] | 0}px;"></span></li>`;
       }).join('\n');
           
     }
