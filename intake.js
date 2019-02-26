@@ -66,7 +66,7 @@ function processIsland(island) {
       let data = CV.lumArray(id);
 
       let sobel = CV.kernelFilter(data, 256, CV.sobelXKernel);
-      let boosted = CV.map(sobel, n => Math.abs(n) > .25 ? 1: 0);
+      let boosted = CV.map(sobel, n => Math.abs(n) > .1 ? 1: 0);
       ctx.putImageData(CV.grayscale(CV.normalize(boosted), 256), 0, 0);
 
       let contourList = contours(boosted);
@@ -111,6 +111,7 @@ function processIsland(island) {
         let sigSampleLeft = sigCenterX - sigSampleSize / 2;
         let sigSampleTop = sigCenterY - sigSampleSize / 2;
         
+        sigCtx.clearRect(0, 0, signatureSize, signatureSize);
         sigCtx.drawImage(
           img,
           sigSampleLeft - 16,
@@ -120,13 +121,16 @@ function processIsland(island) {
           0, 0, signatureSize, signatureSize
         );
         
+        
         let islandSig = CV.kernelFilter(
           CV.lumArray(sigCtx.getImageData(0, 0, signatureSize, signatureSize)),
           signatureSize,
           CV.sobelXKernel
         );
         
-        islandSig = CV.normalize(islandSig);
+        islandSig = CV.normalize(CV.map(islandSig, n => Math.min(1, Math.abs(n) * 3)));
+        
+        islandSig = CV.lumArray(sigCtx.getImageData(0, 0, signatureSize, signatureSize));
         
         sigCtx.putImageData(CV.grayscale(islandSig, signatureSize), 0, 0);
 
