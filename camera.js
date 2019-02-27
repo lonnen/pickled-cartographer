@@ -11,10 +11,7 @@ class Camera {
       audio: false,
       video: {
         facingMode: this.selfie ? "user" : "environment",
-        frameRate: {
-          ideal: 1,
-          max: 5,
-        }
+        frameRate: { ideal: 1 }
       }
     }).then(stream => {
       this.stream = stream;
@@ -30,3 +27,4 @@ class Camera {
     this._startCapture();
   }
 }
+R
