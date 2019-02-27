@@ -4,15 +4,13 @@ class Camera {
     this.video.setAttribute('muted', true);
     this.video.setAttribute('playsinline', true);
     
-    this.frameRate = 1;
     this.selfie = false;
   }
   _startCapture() {
     return navigator.mediaDevices.getUserMedia({
       audio: false,
       video: {
-        facingMode: this.selfie ? "user" : "environment",
-        frameRate: { ideal: this.frameRate }
+        facingMode: this.selfie ? "user" : "environment"
       }
     }).then(stream => {
       this.stream = stream;
@@ -28,4 +26,3 @@ class Camera {
     this._startCapture();
   }
 }
-R
