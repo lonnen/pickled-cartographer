@@ -20,11 +20,11 @@ The primary application
 
 ### ← camera.js
 
-A reusable getUserMedia-based camera class. 
+A reusable getUserMedia-based camera class for mobile devices. You could probably use this in another project with minimal modification.
 
 ### ← contours.js
 
-
+This defines the contour detection that simplifies raw camera input into 
 
 ### ← intake.html
 
