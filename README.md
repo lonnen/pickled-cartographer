@@ -3,7 +3,7 @@ The Pickled Cartographer
 
 Identify island maps in Sea of Thieves using a second device!
 
-Do 
+The pickled cartographer uses WebRTC and some rudimentary computer vision to 
 
 
 Your Project
