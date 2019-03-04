@@ -3,7 +3,9 @@ The Pickled Cartographer
 
 Identify island maps in Sea of Thieves using a second device!
 
-The pickled cartographer uses WebRTC and some rudimentary computer vision to 
+The pickled cartographer uses WebRTC and some rudimentary computer vision to identify treasure maps in Sea of Thieves.
+
+
 
 
 Your Project
