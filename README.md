@@ -20,9 +20,17 @@ The primary application
 
 ### ← camera.js
 
+A reusable getUserMedia-based camera class. 
+
 ### ← contours.js
 
+
+
 ### ← intake.html
+
+A developer page that pre-processes images of every island in the assets folder and produces a set of 'signatures' intended to be manually copied into the 'signatures.json' blob.
+
+This should be done every time a change is made to the image processing code.
 
 ### ← islands.json
 
@@ -34,6 +42,12 @@ The primary application
 
 ### ← style.css
 
+
+
 ### ← watch.json
 
-Glitch uses watch.jso
+This file describes custom rules for when to restart which files during development. It is used by [Glitch](glitch.com) to manage container behavior. Read more about how to use it [here](https://glitch.com/edit/#!/watch-json).
+
+### ← [assets]
+
+Assets for this project include images of every island in the game named with their primary grid-square. Images were manually captured from the master map, cropped, labelled, and edited to remove cartographic embelleshments (waves, grid lines, etc).
