@@ -6,6 +6,10 @@ Identify island maps in Sea of Thieves using a second device!
 
 In Sea of Thieves you can retrieve in-game treasure maps that describe only the shape of the island and the location of treasure. Players are expected to use their shipboard maps to identify these islands. The Pickled Cartographer uses WebRTC and some rudimentary computer vision techniques to identify treasure maps in Sea of Thieves. Since this relies on camera input data, the application was designed with Mobile Safari in mind.
 
+Point it at your monitor and the application will display the current camera input, some visual debugging info from the image detection, and a best match or ranked list of best matches.
+
+![screenshot](https://cdn.glitch.com/4945918e-6ab3-4a5c-8549-71e001d5a0e8%2Fimage0.png?1551685987039)
+
 
 The Project
 ------------
@@ -42,13 +46,15 @@ Defines several Computer Vision and image manipulation functions, including our 
 
 ### ← script.js
 
-The workhorse script
+The workhorse script that manipulates the HTML and coordinates the reusable components together.
 
 ### ← signatures.json
 
+A list of two item lists of the format [[location, signature],...]. Output by intake.html. These signature represent a pre-processed image from the assets folder and are suitable for comparison with camera input.
+
 ### ← style.css
 
-
+The primary CSS information for the main app and intake page.
 
 ### ← watch.json
 
