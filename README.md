@@ -24,7 +24,7 @@ A reusable getUserMedia-based camera class for mobile devices. You could probabl
 
 ### ← contours.js
 
-This defines the contour detection that simplifies raw camera input into 
+A relatively simple edge detection function
 
 ### ← intake.html
 
@@ -34,9 +34,15 @@ This should be done every time a change is made to the image processing code.
 
 ### ← islands.json
 
+A dictionary of island metadata in the format {coordinate: {name:, type:, cat:}...}. Current as of the SoT 1.4.3 patch.
+
 ### ← process.js
 
+Defines several Computer Vision and image manipulation functions, including our Sobel filter.
+
 ### ← script.js
+
+The workhorse script
 
 ### ← signatures.json
 
