@@ -14,52 +14,52 @@ Point it at your monitor and the application will display the current camera inp
 The Project
 ------------
 
-### ← README.md
+### README.md
 
 That's this file, where you can tell people what your cool website does and how you built it.
 
-### ← index.html
+### index.html
 
 The primary application
 
-### ← camera.js
+### camera.js
 
 A reusable getUserMedia-based camera class for mobile devices. You could probably use this in another project with minimal modification.
 
-### ← contours.js
+### contours.js
 
 A relatively simple edge detection function
 
-### ← intake.html
+### intake.html
 
 A developer page that pre-processes images of every island in the assets folder and produces a set of 'signatures' intended to be manually copied into the 'signatures.json' blob.
 
 This should be done every time a change is made to the image processing code.
 
-### ← islands.json
+### islands.json
 
 A dictionary of island metadata in the format {coordinate: {name:, type:, cat:}...}. Current as of the SoT 1.4.3 patch.
 
-### ← process.js
+### process.js
 
 Defines several Computer Vision and image manipulation functions, including our Sobel filter.
 
-### ← script.js
+### script.js
 
 The workhorse script that manipulates the HTML and coordinates the reusable components together.
 
-### ← signatures.json
+### signatures.json
 
 A list of two item lists of the format [[location, signature],...]. Output by intake.html. These signature represent a pre-processed image from the assets folder and are suitable for comparison with camera input.
 
-### ← style.css
+### style.css
 
 The primary CSS information for the main app and intake page.
 
-### ← watch.json
+### watch.json
 
 This file describes custom rules for when to restart which files during development. It is used by [Glitch](glitch.com) to manage container behavior. Read more about how to use it [here](https://glitch.com/edit/#!/watch-json).
 
-### ← [assets]
+### [assets]
 
 Assets for this project include images of every island in the game named with their primary grid-square. Images were manually captured from the master map, cropped, labelled, and edited to remove cartographic embelleshments (waves, grid lines, etc).
