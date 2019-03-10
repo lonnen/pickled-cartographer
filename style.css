@@ -51,6 +51,11 @@ h1 {
   white-space: nowrap;
 }
 
+.wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
 button {
   font: inherit;
   display: block;
