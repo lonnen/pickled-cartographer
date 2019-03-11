@@ -153,7 +153,6 @@ function start(stream) {
       document.querySelector('.matches').innerHTML = topMatches.slice(0,3).map((match, i) => {
         let island = islands[match[0]];
         if (i === 0) {
-          console.log(match[0]);
           populateIslandPreview(match[0]);
         }
         return `<li>${island.name} - ${match[0]} - <span class="confidence" style="width:${topMatches[i + 1][1] - match[1] | 0}px;"></span></li>`;
