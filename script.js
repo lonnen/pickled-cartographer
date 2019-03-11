@@ -30,10 +30,10 @@ let button = document.querySelector('button');
 button.addEventListener('click', function () {
   console.log('click');
   camera.init().then(start);
+  button.style.display = 'none';
 });
 
 function start(stream) {
-  button.style.display = 'none';
   let outCanvas = document.querySelector('.output');
   let outCtx = outCanvas.getContext('2d');
   let video = camera.video;
@@ -154,7 +154,8 @@ function start(stream) {
         let island = islands[match[0]];
         return `<li>${island.name} - ${match[0]} - <span class="confidence" style="width:${topMatches[i + 1][1] - match[1] | 0}px;"></span></li>`;
       }).join('\n');
-          
+
+      document.querySelector(".control").style.backgroundImage="url(https://duckduckgo.com/i/d8260d6c.jpg)";
     }
     
     setTimeout(frame, 50);
@@ -162,7 +163,11 @@ function start(stream) {
   frame();
 }
 
-// document.querySelector('.app').addEventListener('click', init);
+
+function populateIslandPreview(island) {
+  
+}
+
 init().catch(e => console.error(e));
 
 console.log('woooo');
