@@ -15,6 +15,7 @@ h1 {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: auto;
+  align-items: end;
   
   width: 100%;
   max-width: 980px;
@@ -58,9 +59,11 @@ h1 {
   */
 }
 
-.info{
+.info {
   grid-column: 1 / 2;
   overflow: hidden;
+  
+  align-self: stretch;
 }
 
 .matches {
@@ -73,6 +76,10 @@ h1 {
   grid-column: 2 / 3;
   background: no-repeat;
   background-size: contain;
+  background-position: center;
+  background-color: rgb(174, 180, 186);
+  
+  align-self: stretch;
 }
 
 button {
