@@ -152,10 +152,13 @@ function start(stream) {
       let topMatches = scores.sort((a, b) => { return a[1] - b[1] });
       document.querySelector('.matches').innerHTML = topMatches.slice(0,3).map((match, i) => {
         let island = islands[match[0]];
+        if (i === 0) {
+          console.log(match[0]);
+          populateIslandPreview(match[0]);
+        }
         return `<li>${island.name} - ${match[0]} - <span class="confidence" style="width:${topMatches[i + 1][1] - match[1] | 0}px;"></span></li>`;
       }).join('\n');
 
-      document.querySelector(".control").style.backgroundImage="url(https://duckduckgo.com/i/d8260d6c.jpg)";
     }
     
     setTimeout(frame, 50);
@@ -163,9 +166,13 @@ function start(stream) {
   frame();
 }
 
-
+let lastIsland = "";
 function populateIslandPreview(island) {
+  if (island === lastIsland) {
+    return;
+  }
   
+  document.querySelector(".control").style.backgroundImage = `url(https://cdn.glitch.com/4945918e-6ab3-4a5c-8549-71e001d5a0e8%2F${island}.png)`;
 }
 
 init().catch(e => console.error(e));
