@@ -57,6 +57,8 @@ h1 {
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: auto;
   
+  width: 100%;
+  max-width: 980px;
 }
 
 button {
