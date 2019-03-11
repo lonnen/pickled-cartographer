@@ -15,16 +15,22 @@ h1 {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: auto;
-  align-items: end;
   
   width: 100%;
   max-width: 980px;
+}
+
+header {
+  grid-column: 1 / 3;
+  
 }
 
 .app {
   position: relative;
   background: #eee;
   grid-column: 1 / 3;
+  
+  margin: 0 auto;
 }
 
 .app video {
@@ -34,14 +40,18 @@ h1 {
   height: 100vw;
   max-width: 600px;
   max-height: 600px;
+  
 }
 
-.output {
+.app .output {
   position: absolute;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
+  
+  width: 100vw;
+  height: 100vw;
+  max-width: 600px;
+  max-height: 600px;
 }
 
 .confidence {
