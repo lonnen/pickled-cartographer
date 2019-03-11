@@ -8,13 +8,11 @@ let sensorSize = 256;
 let signatureSize = 64;
 
 let camera = new Camera();
-let pre = document.querySelector('pre');
 
 let sigs = [];
 let islands;
 
 let app = document.querySelector('.app');
-app.appendChild(camera.video);
 
 async function init() {
   let signatures = await fetch('signatures.json');
@@ -38,12 +36,14 @@ function start(stream) {
   let outCtx = outCanvas.getContext('2d');
   let video = camera.video;
   
+  app.appendChild(video);
+
   app.addEventListener('click', function () {
     camera.flip();
   });
   
   let canvas = document.createElement('canvas');
-  // document.body.appendChild(canvas);
+
   canvas.width = sensorSize;
   canvas.height = sensorSize;
   
