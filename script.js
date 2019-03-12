@@ -51,7 +51,7 @@ function start(stream) {
   signature.classList.add('signature');
   signature.width = signatureSize;
   signature.height = signatureSize;
-  app.appendChild(signature);
+  // app.appendChild(signature);
   let sigCtx = signature.getContext('2d');
 
   let smoothSignature = new Float32Array(signatureSize * signatureSize);
@@ -171,7 +171,7 @@ function populateIslandPreview(island) {
     return;
   }
   
-  document.querySelector(".control").style.backgroundImage = `url(https://cdn.glitch.com/4945918e-6ab3-4a5c-8549-71e001d5a0e8%2F${island}.png)`;
+  document.querySelector(".match").style.backgroundImage = `url(https://cdn.glitch.com/4945918e-6ab3-4a5c-8549-71e001d5a0e8%2F${island}.png)`;
 }
 
 init().catch(e => console.error(e));
