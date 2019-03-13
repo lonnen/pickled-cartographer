@@ -1,4 +1,4 @@
-/* global CV, Camera, contours */
+init().catch(e => console.error(e));/* global CV, Camera, contours */
 if (window.location.protocol !== 'https:') {
   window.location = 'https://' + window.location.hostname;
 }
@@ -51,12 +51,13 @@ function start(stream) {
   signature.classList.add('signature');
   signature.width = signatureSize;
   signature.height = signatureSize;
-  // app.appendChild(signature);
+  
+  //app.appendChild(signature);
   let sigCtx = signature.getContext('2d');
 
   let smoothSignature = new Float32Array(signatureSize * signatureSize);
   smoothSignature.fill(0);
-
+  
   let ctx = canvas.getContext('2d');
   let grayBuffer = new Float32Array(sensorSize * sensorSize);
   let kernelBuffer = new Float32Array(sensorSize * sensorSize);
@@ -175,5 +176,3 @@ function populateIslandPreview(island) {
 }
 
 init().catch(e => console.error(e));
-
-console.log('woooo');z
