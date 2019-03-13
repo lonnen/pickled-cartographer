@@ -1,6 +1,6 @@
 class Camera {
-  constructor () {
-    this.video = document.createElement('video');
+  constructor (videoElement) {
+    this.video = videoElement;
     this.video.setAttribute('muted', true);
     this.video.setAttribute('playsinline', true);
     

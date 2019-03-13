@@ -7,7 +7,7 @@ let sensorSize = 256;
 
 let signatureSize = 64;
 
-let camera = new Camera();
+let camera = new Camera(document.querySelector('.live-feed'));
 
 let sigs = [];
 let islands;
@@ -36,8 +36,6 @@ function start(stream) {
   let outCtx = outCanvas.getContext('2d');
   let video = camera.video;
   
-  app.insertBefore(video, app.firstChild);
-
   app.addEventListener('click', function () {
     camera.flip();
   });
