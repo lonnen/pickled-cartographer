@@ -36,7 +36,7 @@ function start(stream) {
   let outCtx = outCanvas.getContext('2d');
   let video = camera.video;
   
-  document.querySelector('.gUM').srcOject = video;
+  app.insertBefore(video, app.firstChild);
 
   app.addEventListener('click', function () {
     camera.flip();
@@ -176,4 +176,4 @@ function populateIslandPreview(island) {
 
 init().catch(e => console.error(e));
 
-console.log('woooo');
+console.log('woooo');z
