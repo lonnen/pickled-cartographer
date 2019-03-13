@@ -23,12 +23,14 @@ async function init() {
   islands = (await islandsRequest.json()).islands;
 }
 
-let button = document.querySelector('button');
+let outCanvas = document.querySelector('.output');
 
-button.addEventListener('click', function () {
+outCanvas.addEventListener('click', function () {
+  if (camera.initialized) {
+    return;
+  }
   console.log('click');
   camera.init().then(start);
-  button.style.display = 'none';
 });
 
 function start(stream) {
