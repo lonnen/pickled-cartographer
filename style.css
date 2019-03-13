@@ -23,7 +23,6 @@ h1 {
 }
 
 .app {
-  position: relative;
   background: #eee;
   grid-column: 1 / 3;
   
@@ -34,14 +33,7 @@ h1 {
 }
 
 .app button {
-  position: absolute;
-  top: 0;
-  left: 0;
-  
   font: inherit;
-
-  width: 100%;
-  height: 100%;
   
   min-height: 480px;
   
@@ -60,18 +52,12 @@ h1 {
 }
 
 .app video {
-  position: absolute;
-  top: 0;
-  left: 0;
   background: #ccc;
   
   width: 100%;
 }
 
 .app .output {
-  position: absolute;
-  top: 0;
-  left: 0;  
   width: 100%;
 }
 

@@ -11,18 +11,19 @@
     
     <!-- import the webpage's javascript file -->
     <script src="/contours.js" defer></script>
-    <script src="/process.js" defer></script>
+    <script src="/lib/cv.js" defer></script>
     <script src="/intake.js" defer></script>
   </head>  
   <body>
-    <div class="app">
-      <canvas class="intake"></canvas>
-    </div>
-    <div class="thumbs">
-      
-    </div>
-    <div class="data">
-      
+    <div class="wrapper">
+      <div class="app">
+        <video class="live-feed"></video>
+        <canvas class="intake"></canvas>
+      </div>
+      <div class="data">
+      </div>
+      <div class="thumbs">
+      </div>
     </div>
   </body>
 </html>
