@@ -36,7 +36,7 @@ function start(stream) {
   let outCtx = outCanvas.getContext('2d');
   let video = camera.video;
   
-  app.appendChild(video);
+  document.querySelector('.gUM').srcOject = video;
 
   app.addEventListener('click', function () {
     camera.flip();
