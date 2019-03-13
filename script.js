@@ -15,11 +15,11 @@ let islands;
 let app = document.querySelector('.app');
 
 async function init() {
-  let signatures = await fetch('signatures.json');
+  let signatures = await fetch('data/signatures.json');
   signatures = await signatures.json();
   sigs = signatures.map(s => [s[0], atob(s[1]).split('').map(c => c.charCodeAt(0))]);
   
-  let islandsRequest = await fetch('islands.json');
+  let islandsRequest = await fetch('data/islands.json');
   islands = (await islandsRequest.json()).islands;
 }
 
@@ -57,10 +57,11 @@ function start(stream) {
   smoothSignature.fill(0);
   
   let ctx = canvas.getContext('2d');
+  
   let grayBuffer = new Float32Array(sensorSize * sensorSize);
   let kernelBuffer = new Float32Array(sensorSize * sensorSize);
-
   let alphaBuffer = new Uint8ClampedArray(sensorSize * sensorSize);
+  
   function frame() {
     let sampleSize = Math.min(video.videoWidth, video.videoHeight) * .75;
     let sampleX = video.videoWidth / 2 - sampleSize / 2;
