@@ -13,8 +13,7 @@ let app = document.querySelector('.app');
 let camera = new Camera(document.querySelector('.live-feed'));
 let outCanvas = document.querySelector('.output');
 
-// something of a race condition here.
-// in practice this beats the 
+// something of a race condition here, but we're proceeding
 (async function init() {
   let signatures = await fetch('data/signatures.json');
   signatures = await signatures.json();
@@ -24,7 +23,7 @@ let outCanvas = document.querySelector('.output');
   islands = (await islandsRequest.json()).islands;
 })().catch(e => console.error(e));
 
-
+// everything hinges on this user input
 outCanvas.addEventListener('click', function () {
   if (camera.initialized) {
     return;
