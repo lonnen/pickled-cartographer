@@ -1,29 +1,29 @@
-init().catch(e => console.error(e));/* global CV, Camera, contours */
+/* global CV, Camera, contours */
 if (window.location.protocol !== 'https:') {
   window.location = 'https://' + window.location.hostname;
 }
 
-
 let sensorSize = 256;
 let signatureSize = 64;
-
-let camera = new Camera(document.querySelector('.live-feed'));
 
 let sigs = [];
 let islands;
 
 let app = document.querySelector('.app');
+let camera = new Camera(document.querySelector('.live-feed'));
+let outCanvas = document.querySelector('.output');
 
-async function init() {
+// something of a race condition here.
+// in practice this beats the 
+(async function init() {
   let signatures = await fetch('data/signatures.json');
   signatures = await signatures.json();
   sigs = signatures.map(s => [s[0], atob(s[1]).split('').map(c => c.charCodeAt(0))]);
   
   let islandsRequest = await fetch('data/islands.json');
   islands = (await islandsRequest.json()).islands;
-}
+})().catch(e => console.error(e));
 
-let outCanvas = document.querySelector('.output');
 
 outCanvas.addEventListener('click', function () {
   if (camera.initialized) {
@@ -167,24 +167,12 @@ function start(stream) {
   frame();
 }
 
-let lastIsland = "";
-
-let populateIslandPreview = function() {
+let populateIslandPreview = (function() {
   let lastIsland = "";
-  return function() {
+  return function(island) {
     if (island === lastIsland) {
       return;
     }
     document.querySelector(".match").style.backgroundImage = `url(https://cdn.glitch.com/4945918e-6ab3-4a5c-8549-71e001d5a0e8%2F${island}.png)`;
   }
-}
-
-function populateIslandPreview(island) {
-  
-  if (island === lastIsland) {
-    return;
-  }
-  
-}
-
-init().catch(e => console.error(e));
+})();
