@@ -1,6 +1,7 @@
 /* CSS files add styling rules to your content */
 
 body {
+  background-color: rgb(174, 180, 186);
   font-family: "Benton Sans", "Helvetica Neue", helvetica, arial, sans-serif;
   margin: 0;
 }
@@ -34,7 +35,6 @@ h1 {
 
 .app video {
   background: #ccc;
-    
   width: 100%;
 }
 
@@ -78,8 +78,6 @@ h1 {
   grid-column: 2 / 3;
   background: no-repeat;
   background-size: contain;
-  background-position: center;
-  background-color: rgb(174, 180, 186);
-  
+  background-position: center;  
   align-self: stretch;
 }

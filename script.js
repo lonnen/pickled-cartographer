@@ -13,23 +13,26 @@ let app = document.querySelector('.app');
 let camera = new Camera(document.querySelector('.live-feed'));
 let outCanvas = document.querySelector('.output');
 
-// something of a race condition here, but we're proceeding
-(async function init() {
+async function init() {
   let signatures = await fetch('data/signatures.json');
   signatures = await signatures.json();
   sigs = signatures.map(s => [s[0], atob(s[1]).split('').map(c => c.charCodeAt(0))]);
   
   let islandsRequest = await fetch('data/islands.json');
   islands = (await islandsRequest.json()).islands;
-})().catch(e => console.error(e));
+}
 
-// everything hinges on this user input
+// start loading data files early, block on it later
+let initialization = init();
+
+
+// need user input to get a camera feed on iOS
 outCanvas.addEventListener('click', function () {
   if (camera.initialized) {
     return;
   }
   console.log('click');
-  camera.init().then(start);
+  camera.init().then(initialization).then(start).catch(e => console.error(e));
 });
 
 function start(stream) {
