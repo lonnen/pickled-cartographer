@@ -3,8 +3,8 @@ if (window.location.protocol !== 'https:') {
   window.location = 'https://' + window.location.hostname;
 }
 
-let sensorSize = 256;
 
+let sensorSize = 256;
 let signatureSize = 64;
 
 let camera = new Camera(document.querySelector('.live-feed'));
@@ -168,12 +168,23 @@ function start(stream) {
 }
 
 let lastIsland = "";
+
+let populateIslandPreview = function() {
+  let lastIsland = "";
+  return function() {
+    if (island === lastIsland) {
+      return;
+    }
+    document.querySelector(".match").style.backgroundImage = `url(https://cdn.glitch.com/4945918e-6ab3-4a5c-8549-71e001d5a0e8%2F${island}.png)`;
+  }
+}
+
 function populateIslandPreview(island) {
+  
   if (island === lastIsland) {
     return;
   }
   
-  document.querySelector(".match").style.backgroundImage = `url(https://cdn.glitch.com/4945918e-6ab3-4a5c-8549-71e001d5a0e8%2F${island}.png)`;
 }
 
 init().catch(e => console.error(e));
