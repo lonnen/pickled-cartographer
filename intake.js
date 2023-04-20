@@ -1,18 +1,18 @@
 /* global contours, CV */
 
 let signatureSize = 64;
-let signature = document.createElement('canvas');
+let signature = document.createElement("canvas");
 signature.width = signatureSize;
 signature.height = signatureSize;
 document.body.appendChild(signature);
-let sigCtx = signature.getContext('2d');
+let sigCtx = signature.getContext("2d");
 
 let fullOutput = [];
 
 // this works, amazingly
 function inPaint(id) {
   let data = id.data;
-  
+
   const idx = (x, y) => (y * id.width + x) * 4;
   const copyPixel = (x, y, x2, y2) => {
     let id = idx(x, y);
@@ -21,8 +21,8 @@ function inPaint(id) {
     data[id2 + 1] = data[id + 1];
     data[id2 + 2] = data[id + 2];
     data[id2 + 3] = data[id + 3];
-  }
-  
+  };
+
   let cx = id.width / 2;
   for (let i = 0; i < cx; i++) {
     for (let j = 0; j < cx; j++) {
@@ -46,7 +46,7 @@ function inPaint(id) {
       if (data[idx(x, y) + 3] < 255) {
         copyPixel(x, y - 1, x, y);
       }
-      
+
       x = cx - j - 1;
       y = cx - i - 1;
       if (data[idx(x, y) + 3] < 255) {
@@ -72,10 +72,10 @@ function inPaint(id) {
 }
 
 async function init() {
-  let assets = await fetch('/.glitch-assets');
+  let assets = await fetch("/.glitch-assets");
   assets = await assets.text();
   let uuids = {};
-  assets.split('\n').forEach(f => {
+  assets.split("\n").forEach((f) => {
     try {
       let a = JSON.parse(f);
       if (uuids[a.uuid]) {
@@ -84,62 +84,64 @@ async function init() {
         uuids[a.uuid] = a;
       }
     } catch (e) {
-      console.warn('whoops');
+      console.warn("whoops");
     }
   });
-  
-  let islands = Object.values(uuids).filter(u => !u.deleted);
+
+  let islands = Object.values(uuids).filter((u) => !u.deleted);
   let pos = 0;
-  
+
   function next() {
     if (pos >= islands.length) {
-      let outEl = document.createElement('pre');
+      let outEl = document.createElement("pre");
       outEl.innerText = JSON.stringify(fullOutput, null, 2);
-      document.querySelector('.data').appendChild(outEl);
-      console.log('done!');
+      document.querySelector(".data").appendChild(outEl);
+      console.log("done!");
       return;
     }
-    processIsland(islands[pos]).then(() => {
-      pos++;
-      setTimeout(next, 0);
-    }).catch(e => {
-      console.error(e);
-      pos++;
-      setTimeout(next, 0);
-    });
+    processIsland(islands[pos])
+      .then(() => {
+        pos++;
+        setTimeout(next, 0);
+      })
+      .catch((e) => {
+        console.error(e);
+        pos++;
+        setTimeout(next, 0);
+      });
   }
-  
+
   next();
-  
+
   // console.log(assets.split('\n').map(f => JSON.parse(f)));
 }
 
 function processIsland(island) {
   return new Promise((resolve, reject) => {
     let img = new Image();
-    img.setAttribute('crossorigin', 'anonymous');
-    img.addEventListener('load', function () {
-      let canvas = document.querySelector('.intake');
+    img.setAttribute("crossorigin", "anonymous");
+    img.addEventListener("load", function () {
+      let canvas = document.querySelector(".intake");
       canvas.width = 256;
       canvas.height = 256;
-      let ctx = canvas.getContext('2d');
+      let ctx = canvas.getContext("2d");
       ctx.drawImage(img, 0, 0, img.width, img.height, 0, 0, 256, 256);
       let id = ctx.getImageData(0, 0, 256, 256);
       let data = CV.lumArray(id);
 
       let sobel = CV.kernelFilter(data, 256, CV.sobelXKernel);
-      let boosted = CV.map(sobel, n => Math.abs(n) > .1 ? 1: 0);
+      let boosted = CV.map(sobel, (n) => (Math.abs(n) > 0.1 ? 1 : 0));
       ctx.putImageData(CV.grayscale(CV.normalize(boosted), 256), 0, 0);
 
       let contourList = contours(boosted);
-      contourList = contourList.filter(c => c.length > 10);
+      contourList = contourList.filter((c) => c.length > 10);
       console.log(contourList);
 
       if (contourList.length) {
         ctx.beginPath();
         ctx.lineWidth = 3;
-        ctx.strokeStyle = '#0f0';
-        ctx.fillStyle= '#rgba(0, 255, 0, .5)';
+        ctx.strokeStyle = "#0f0";
+        ctx.fillStyle = "#rgba(0, 255, 0, .5)";
 
         let minX = Infinity;
         let minY = Infinity;
@@ -149,8 +151,8 @@ function processIsland(island) {
         for (let contour of contourList) {
           ctx.beginPath();
           for (let pos of contour) {
-            let x = (pos % 256) * 256 / 256;
-            let y = (pos / 256 | 0) * 256 / 256;
+            let x = ((pos % 256) * 256) / 256;
+            let y = (((pos / 256) | 0) * 256) / 256;
             if (x < minX) minX = x;
             if (y < minY) minY = y;
             if (x > maxX) maxX = x;
@@ -160,19 +162,19 @@ function processIsland(island) {
           ctx.stroke();
         }
 
-        ctx.strokeRect(minX, minY, maxX-minX, maxY-minY);
+        ctx.strokeRect(minX, minY, maxX - minX, maxY - minY);
 
-        minX = minX * img.width / 256;
-        maxX = maxX * img.width / 256;
-        minY = minY * img.height / 256;
-        maxY = maxY * img.height / 256;
-        
+        minX = (minX * img.width) / 256;
+        maxX = (maxX * img.width) / 256;
+        minY = (minY * img.height) / 256;
+        maxY = (maxY * img.height) / 256;
+
         let sigSampleSize = Math.max(maxX - minX, maxY - minY);
         let sigCenterX = (minX + maxX) / 2;
         let sigCenterY = (minY + maxY) / 2;
         let sigSampleLeft = sigCenterX - sigSampleSize / 2;
         let sigSampleTop = sigCenterY - sigSampleSize / 2;
-        
+
         sigCtx.clearRect(0, 0, signatureSize, signatureSize);
         sigCtx.drawImage(
           img,
@@ -180,45 +182,54 @@ function processIsland(island) {
           sigSampleTop - 32,
           sigSampleSize + 48,
           sigSampleSize + 48,
-          0, 0, signatureSize, signatureSize
+          0,
+          0,
+          signatureSize,
+          signatureSize
         );
-        
-        let islandData = sigCtx.getImageData(0, 0, signatureSize, signatureSize);
-        
+
+        let islandData = sigCtx.getImageData(
+          0,
+          0,
+          signatureSize,
+          signatureSize
+        );
+
         inPaint(islandData);
-        
+
         sigCtx.putImageData(islandData, 0, 0);
 
         let islandSig = CV.lumArray(islandData);
-                
+
         islandSig = CV.kernelFilter(
           CV.lumArray(sigCtx.getImageData(0, 0, signatureSize, signatureSize)),
           signatureSize,
           CV.sobelXKernel
         );
-        
-        islandSig = CV.normalize(CV.map(islandSig, n => Math.min(1, Math.abs(n) * 3)));
-                
+
+        islandSig = CV.normalize(
+          CV.map(islandSig, (n) => Math.min(1, Math.abs(n) * 3))
+        );
+
         sigCtx.putImageData(CV.grayscale(islandSig, signatureSize), 0, 0);
 
         let i = new Image();
         i.src = signature.toDataURL();
-        i.setAttribute('title', island.name);
-        document.querySelector('.thumbs').appendChild(i);
-        
-        let dataOut = '';
+        i.setAttribute("title", island.name);
+        document.querySelector(".thumbs").appendChild(i);
+
+        let dataOut = "";
         for (let i = 0; i < islandSig.length; i++) {
           dataOut += String.fromCharCode(islandSig[i]);
         }
-        fullOutput.push([island.name.replace('.png',''), btoa(dataOut)]);
+        fullOutput.push([island.name.replace(".png", ""), btoa(dataOut)]);
         resolve();
       }
     });
     img.onerror = reject;
 
-    img.src=island.url
+    img.src = island.url;
   });
 }
 
-
-init().catch(e => console.error(e));
+init().catch((e) => console.error(e));
